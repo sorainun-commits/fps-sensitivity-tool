@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sensconverter.vercel.app/sitemap.xml
+Sitemap: https://fps-sensitivity-tool2.vercel.app/sitemap.xml
