@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ValorantからApexへの感度変換方法【完全ガイド】計算式と換算表 | SensConverter</title>
+  <meta name="description" content="ValorantからApex Legendsへの感度変換方法を解説。計算式・換算表・感度変換ツールの使い方を紹介。cm/360を維持して同じ感覚でプレイしよう。" />
+  <meta name="keywords" content="Valorant Apex 感度変換,Valorant から Apex 感度,Valorant Apex 換算,感度変換 計算式,FPS 感度変換" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://fps-sensitivity-tool2.vercel.app/blog/valorant-to-apex-sensitivity.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ValorantからApexへの感度変換方法【完全ガイド】","datePublished":"2026-06-01","author":{"@type":"Organization","name":"SensConverter"}}</script>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav">
+      <a href="../tools/sensitivity.html" class="nav-link">感度変換</a>
+      <a href="../tools/edpi.html" class="nav-link">eDPI計算</a>
+      <a href="../tools/pros.html" class="nav-link">プロ設定DB</a>
+      <a href="../guide.html" class="nav-link">初心者ガイド</a>
+      <a href="index.html" class="nav-link active">ブログ</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn">EN</button>
+      <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="../index.html" class="nav-link">🏠 トップ</a>
+    <a href="../tools/sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="index.html" class="nav-link">📝 ブログ</a>
+  </nav>
+</header>
+
+<div class="blog-hero">
+  <p class="blog-eyebrow">感度変換ガイド</p>
+  <h1 class="blog-title">ValorantからApex Legendsへの<br>感度変換方法【完全ガイド】</h1>
+  <div class="blog-meta">
+    <span>📅 2026年6月1日</span><span>⏱️ 約7分</span><span>🎯 感度変換</span>
+  </div>
+</div>
+
+<div class="blog-body">
+  <div class="ad-space"><span>広告スペース</span></div>
+
+  <p>ValorantとApex Legendsを両方プレイしている人は多いですが、「Valorantで使っている感度をApexに移したい」という悩みをよく聞きます。単純に同じ数値を入力しても全く違う速さになってしまいます。</p>
+  <p>この記事では<strong>ValorantからApexへの正確な感度変換方法</strong>を解説します。</p>
+
+  <h2>なぜ感度の数値が違うのか</h2>
+  <p>ゲームによって「感度1.0」が実際にどれだけカーソルを動かすかが異なります。この係数を<strong>YAW値</strong>と呼びます。</p>
+  <table class="blog-table">
+    <thead><tr><th>ゲーム</th><th>YAW値</th><th>特徴</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">Valorant</td><td>0.07</td><td>YAW値が高い → 同じ感度数値でも速い</td></tr>
+      <tr><td class="hl">Apex Legends</td><td>0.022</td><td>YAW値が低い → 同じ感度数値でも遅い</td></tr>
+      <tr><td>CS2</td><td>0.022</td><td>ApexとYAW値が同じ</td></tr>
+    </tbody>
+  </table>
+  <p>ValorantのYAW値（0.07）はApexのYAW値（0.022）の約3.18倍です。つまり<strong>Valorantの感度をApexに変換するには約3.18倍にする</strong>必要があります。</p>
+
+  <h2>計算式</h2>
+  <p><strong>Apex感度 = Valorant感度 × (0.07 ÷ 0.022)</strong></p>
+  <p>= Valorant感度 × 3.1818...</p>
+
+  <h2>Valorant→Apex 感度換算表</h2>
+  <table class="blog-table">
+    <thead><tr><th>Valorant感度</th><th>Apex感度（DPI共通）</th><th>eDPI（DPI800時）</th></tr></thead>
+    <tbody>
+      <tr><td>0.20</td><td>0.636</td><td>509</td></tr>
+      <tr><td>0.30</td><td>0.955</td><td>764</td></tr>
+      <tr class="hl"><td><strong>0.40</strong></td><td><strong>1.273</strong></td><td>1018</td></tr>
+      <tr><td>0.50</td><td>1.591</td><td>1273</td></tr>
+      <tr class="hl"><td><strong>0.60</strong></td><td><strong>1.909</strong></td><td>1527</td></tr>
+      <tr><td>0.70</td><td>2.227</td><td>1782</td></tr>
+      <tr><td>0.80</td><td>2.545</td><td>2036</td></tr>
+    </tbody>
+  </table>
+
+  <div class="blog-tip">
+    <strong>💡 DPIは変えなくてOK</strong><br>
+    DPIはマウスのハードウェア設定なので、ゲームをまたいでも同じDPIを使います。感度の数値だけを換算してください。
+  </div>
+
+  <h2>感度変換ツールで簡単に換算する方法</h2>
+  <p>計算が面倒な場合は感度変換ツールを使うと一瞬で換算できます。</p>
+  <ol>
+    <li>「変換元ゲーム」で「Valorant」を選択</li>
+    <li>「変換先ゲーム」で「Apex Legends」を選択</li>
+    <li>「現在の感度」にValorantの感度を入力</li>
+    <li>「マウスDPI」にDPIを入力</li>
+    <li>入力した瞬間にApexの感度が表示される</li>
+  </ol>
+
+  <div class="blog-cta">
+    <h3>🎯 今すぐValorant→Apex感度を変換</h3>
+    <p>リアルタイムで変換結果が表示されます。プロとの比較も可能。</p>
+    <a href="../tools/sensitivity.html?from=valorant&to=apex" class="btn btn-primary" style="width:auto;padding:12px 32px;">感度変換ツールを使う →</a>
+  </div>
+
+  <h2>変換後に確認すること</h2>
+  <h3>cm/360が同じになっているか確認</h3>
+  <p>正しく変換できていれば、ValorantとApexで<strong>cm/360（360度振り向くのに必要なマウスの移動距離）が同じ</strong>になります。感度変換ツールでcm/360を確認してください。</p>
+
+  <h3>ADS感度も調整する</h3>
+  <p>Apexにはヒップファイアとは別にADS感度があります。最初は1.0（等倍）に設定して、慣れてきたら調整しましょう。</p>
+
+  <h2>まとめ</h2>
+  <ul>
+    <li>ValorantとApexはYAW値が違うため<strong>感度の数値をそのままコピーしてはいけない</strong></li>
+    <li>換算式は<strong>Apex感度 = Valorant感度 × 3.18</strong></li>
+    <li>感度変換ツールを使えば<strong>一瞬で正確に換算</strong>できる</li>
+    <li>変換後は<strong>cm/360が同じになっているか確認</strong>する</li>
+  </ul>
+
+  <div class="ad-space" style="margin-top:32px;"><span>広告スペース</span></div>
+  <div class="blog-nav">
+    <a href="apex-pro-settings.html">← Apexプロ設定まとめ</a>
+    <a href="edpi-complete-guide.html">eDPI完全解説 →</a>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../index.html">トップページ</a>
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+</footer>
+<script src="../script.js"></script>
+</body>
+</html>
