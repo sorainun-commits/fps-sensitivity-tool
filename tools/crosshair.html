@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クロスヘアジェネレーター | SensConverter</title>
+  <meta name="description" content="Valorant・CS2向けクロスヘアジェネレーター。リアルタイムプレビューでカスタマイズし、コードをワンクリックでコピー。プロのプリセットも収録。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .ch-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+    .ch-preview-wrap {
+      background: #1a1a2e;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid var(--border);
+    }
+    .ch-bg-btns { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .ch-bg-btn {
+      padding: 5px 14px; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+      border: 1.5px solid var(--border); cursor: pointer; font-family: inherit;
+      transition: all 0.2s; background: var(--card2); color: var(--text-muted);
+    }
+    .ch-bg-btn.active { border-color: var(--accent2); color: var(--accent2); background: rgba(124,92,252,0.08); }
+    canvas#chCanvas { display: block; width: 100%; height: 100%; }
+
+    .ch-controls { display: flex; flex-direction: column; gap: 16px; }
+    .ch-section { background: var(--card2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
+    .ch-section-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .ch-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .ch-row:last-child { margin-bottom: 0; }
+    .ch-label { font-size: 0.82rem; color: var(--text); font-weight: 600; flex-shrink: 0; min-width: 90px; }
+    .ch-val { font-size: 0.82rem; font-weight: 700; color: var(--accent2); min-width: 32px; text-align: right; flex-shrink: 0; }
+    input[type="range"] { flex: 1; accent-color: var(--accent2); cursor: pointer; height: 4px; }
+    input[type="color"] { width: 36px; height: 28px; border: none; border-radius: 6px; cursor: pointer; padding: 0; background: none; }
+    .ch-toggle { display: flex; gap: 6px; }
+    .ch-toggle-btn { padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; border: 1.5px solid var(--border); cursor: pointer; font-family: inherit; transition: all 0.2s; background: var(--card); color: var(--text-muted); }
+    .ch-toggle-btn.active { border-color: var(--accent2); color: var(--accent2); background: rgba(124,92,252,0.08); }
+
+    .ch-code-box { background: var(--card2); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--text); word-break: break-all; line-height: 1.5; min-height: 48px; margin-bottom: 8px; }
+    .ch-copy-row { display: flex; gap: 8px; }
+    .ch-copied { font-size: 0.8rem; color: var(--success); font-weight: 600; display: none; align-items: center; gap: 4px; }
+
+    .preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .preset-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; cursor: pointer; transition: all 0.2s; }
+    .preset-card:hover { border-color: var(--accent2); background: rgba(124,92,252,0.04); }
+    .preset-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+    .preset-game { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+    .preset-preview { margin-top: 6px; }
+
+    @media (max-width: 900px) {
+      .ch-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="kda.html"         class="nav-link">KDA計算</a>
+      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+      <a href="reaction.html"    class="nav-link">反応速度</a>
+      <a href="crosshair.html"   class="nav-link active">クロスヘア</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+    <a href="reaction.html"    class="nav-link">⚡ 反応速度</a>
+    <a href="crosshair.html"   class="nav-link">✛ クロスヘア</a>
+  </nav>
+</header>
+
+<main class="page-main">
+  <div class="ad-space"><span>広告スペース</span></div>
+
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h1 class="section-title">✛ クロスヘアジェネレーター</h1>
+    <p class="section-desc">Valorant・CS2対応。リアルタイムプレビューでカスタマイズしてコードをコピー。</p>
+
+    <div class="ch-layout">
+      <!-- 左: プレビュー + コード -->
+      <div>
+        <div class="ch-bg-btns">
+          <button class="ch-bg-btn active" data-bg="dark">ダーク</button>
+          <button class="ch-bg-btn" data-bg="light">ライト</button>
+          <button class="ch-bg-btn" data-bg="gray">グレー</button>
+          <button class="ch-bg-btn" data-bg="map">マップ風</button>
+        </div>
+        <div class="ch-preview-wrap" id="previewWrap">
+          <canvas id="chCanvas" width="640" height="360"></canvas>
+        </div>
+
+        <!-- Valorantコード -->
+        <div style="margin-top:20px;">
+          <div style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">Valorant コード</div>
+          <div class="ch-code-box" id="valorantCode">—</div>
+          <div class="ch-copy-row">
+            <button class="btn btn-outline btn-sm" id="copyValorant">📋 コピー</button>
+            <span class="ch-copied" id="copiedValorant">✅ コピーしました</span>
+          </div>
+        </div>
+
+        <!-- CS2コマンド -->
+        <div style="margin-top:16px;">
+          <div style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:6px;">CS2 コンソールコマンド</div>
+          <div class="ch-code-box" id="cs2Code">—</div>
+          <div class="ch-copy-row">
+            <button class="btn btn-outline btn-sm" id="copyCs2">📋 コピー</button>
+            <span class="ch-copied" id="copiedCs2">✅ コピーしました</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右: コントロール -->
+      <div class="ch-controls">
+        <!-- 色 -->
+        <div class="ch-section">
+          <div class="ch-section-title">カラー</div>
+          <div class="ch-row">
+            <span class="ch-label">クロスヘア色</span>
+            <input type="color" id="chColor" value="#00ff00" />
+          </div>
+          <div class="ch-row">
+            <span class="ch-label">アウトライン色</span>
+            <input type="color" id="chOutlineColor" value="#000000" />
+          </div>
+        </div>
+
+        <!-- ライン -->
+        <div class="ch-section">
+          <div class="ch-section-title">ライン</div>
+          <div class="ch-row">
+            <span class="ch-label">長さ</span>
+            <input type="range" id="chLength" min="1" max="20" value="6" step="1" />
+            <span class="ch-val" id="chLengthVal">6</span>
+          </div>
+          <div class="ch-row">
+            <span class="ch-label">太さ</span>
+            <input type="range" id="chThickness" min="1" max="8" value="2" step="1" />
+            <span class="ch-val" id="chThicknessVal">2</span>
+          </div>
+          <div class="ch-row">
+            <span class="ch-label">ギャップ</span>
+            <input type="range" id="chGap" min="-5" max="10" value="3" step="1" />
+            <span class="ch-val" id="chGapVal">3</span>
+          </div>
+          <div class="ch-row">
+            <span class="ch-label">アウトライン</span>
+            <input type="range" id="chOutline" min="0" max="3" value="1" step="0.5" />
+            <span class="ch-val" id="chOutlineVal">1</span>
+          </div>
+          <div class="ch-row">
+            <span class="ch-label">不透明度</span>
+            <input type="range" id="chOpacity" min="0.1" max="1" value="1" step="0.05" />
+            <span class="ch-val" id="chOpacityVal">1</span>
+          </div>
+        </div>
+
+        <!-- オプション -->
+        <div class="ch-section">
+          <div class="ch-section-title">オプション</div>
+          <div class="ch-row">
+            <span class="ch-label">センタードット</span>
+            <div class="ch-toggle">
+              <button class="ch-toggle-btn active" data-opt="dot" data-val="1">ON</button>
+              <button class="ch-toggle-btn" data-opt="dot" data-val="0">OFF</button>
+            </div>
+          </div>
+          <div class="ch-row">
+            <span class="ch-label">上ライン</span>
+            <div class="ch-toggle">
+              <button class="ch-toggle-btn active" data-opt="top" data-val="1">ON</button>
+              <button class="ch-toggle-btn" data-opt="top" data-val="0">OFF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- プリセット -->
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h2 class="section-title">🏆 プロのクロスヘアプリセット</h2>
+    <p class="section-desc">クリックで即座に適用されます。</p>
+    <div class="preset-grid" id="presetGrid"></div>
+  </section>
+
+  <div class="ad-space"><span>広告スペース</span></div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+</footer>
+<script src="../script.js"></script>
+
+<script>
+(function() {
+  var canvas  = document.getElementById("chCanvas");
+  var ctx     = canvas.getContext("2d");
+  var bgColor = "dark";
+
+  var settings = {
+    color:        "#00ff00",
+    outlineColor: "#000000",
+    length:       6,
+    thickness:    2,
+    gap:          3,
+    outline:      1,
+    opacity:      1,
+    dot:          true,
+    top:          true
+  };
+
+  var PRESETS = [
+    { name:"TenZ",      game:"Valorant", color:"#00ff00", length:4,  thickness:2, gap:3,  outline:1,   opacity:1,   dot:false, top:true  },
+    { name:"ScreaM",    game:"Valorant", color:"#ffffff", length:5,  thickness:2, gap:2,  outline:1,   opacity:0.8, dot:false, top:true  },
+    { name:"Shroud",    game:"Valorant", color:"#00ffff", length:6,  thickness:2, gap:4,  outline:1,   opacity:1,   dot:true,  top:true  },
+    { name:"s1mple",    game:"CS2",      color:"#00ff00", length:3,  thickness:1, gap:1,  outline:0.5, opacity:1,   dot:false, top:false },
+    { name:"NiKo",      game:"CS2",      color:"#ffffff", length:2,  thickness:1, gap:0,  outline:1,   opacity:1,   dot:true,  top:false },
+    { name:"ZywOo",     game:"CS2",      color:"#00ff00", length:4,  thickness:1, gap:2,  outline:1,   opacity:1,   dot:false, top:true  },
+    { name:"Aspas",     game:"Valorant", color:"#ff4655", length:5,  thickness:2, gap:3,  outline:1,   opacity:1,   dot:true,  top:true  },
+    { name:"Bugha",     game:"Fortnite", color:"#ffffff", length:8,  thickness:2, gap:5,  outline:1,   opacity:1,   dot:false, top:true  }
+  ];
+
+  var BG_COLORS = { dark:"#1a1a2e", light:"#e8e8e8", gray:"#4a4a5a", map:"#2d4a2d" };
+
+  function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+  }
+
+  function draw() {
+    var W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // 背景
+    ctx.fillStyle = BG_COLORS[bgColor] || "#1a1a2e";
+    ctx.fillRect(0, 0, W, H);
+
+    // マップ風の場合グリッド
+    if (bgColor === "map") {
+      ctx.strokeStyle = "rgba(255,255,255,0.06)";
+      ctx.lineWidth = 1;
+      for (var x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+      for (var y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    }
+
+    var cx = W / 2, cy = H / 2;
+    var s  = settings;
+    var t  = s.thickness;
+    var g  = s.gap;
+    var l  = s.length;
+    var ol = s.outline;
+    var op = s.opacity;
+    var color   = hexToRgba(s.color, op);
+    var olColor = hexToRgba(s.outlineColor, op);
+
+    ctx.lineCap = "square";
+
+    function drawLine(x1, y1, x2, y2, width, color) {
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = width;
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+
+    // アウトライン付きライン描画
+    function drawCrossLine(x1, y1, x2, y2) {
+      if (ol > 0) drawLine(x1, y1, x2, y2, t + ol * 2, olColor);
+      drawLine(x1, y1, x2, y2, t, color);
+    }
+
+    // 左
+    drawCrossLine(cx - g - l, cy, cx - g, cy);
+    // 右
+    drawCrossLine(cx + g, cy, cx + g + l, cy);
+    // 下
+    drawCrossLine(cx, cy + g, cx, cy + g + l);
+    // 上（オプション）
+    if (s.top) drawCrossLine(cx, cy - g - l, cx, cy - g);
+
+    // センタードット
+    if (s.dot) {
+      var dr = t * 0.8;
+      if (ol > 0) { ctx.beginPath(); ctx.arc(cx, cy, dr + ol, 0, Math.PI*2); ctx.fillStyle = olColor; ctx.fill(); }
+      ctx.beginPath(); ctx.arc(cx, cy, dr, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+    }
+
+    updateCodes();
+  }
+
+  function updateCodes() {
+    var s = settings;
+    // Valorant形式: 0;P;c;[color];h;0;f;0;0l;[length];0o;[outline];0a;[opacity];0f;0;1b;0;S;c;[color];s;[thickness];o;[outline];d;[dot];z;[gap];f;0;0b;0;1b;0
+    var colorMap = { "#ff0000":"1","#00ff00":"2","#ffff00":"3","#0000ff":"4","#ffffff":"5","#00ffff":"6","#ff4655":"1" };
+    var cIdx = colorMap[s.color.toLowerCase()] || "2";
+    var dotVal = s.dot ? "1" : "0";
+    var topVal = s.top ? "0" : "1"; // Valorantは0=上あり
+    var valorant = "0;P;c;" + cIdx + ";h;" + topVal + ";f;0;0l;" + s.length + ";0o;" + s.outline + ";0a;" + s.opacity + ";0f;0;1b;0;S;c;" + cIdx + ";s;" + s.thickness + ";o;" + s.outline + ";d;" + dotVal + ";z;" + s.gap + ";f;0;0b;0;1b;0";
+    document.getElementById("valorantCode").textContent = valorant;
+
+    // CS2形式
+    var cs2 = [
+      "cl_crosshaircolor 5",
+      "cl_crosshaircolor_r " + parseInt(s.color.slice(1,3),16),
+      "cl_crosshaircolor_g " + parseInt(s.color.slice(3,5),16),
+      "cl_crosshaircolor_b " + parseInt(s.color.slice(5,7),16),
+      "cl_crosshairsize "    + s.length,
+      "cl_crosshairthickness " + s.thickness,
+      "cl_crosshairgap "     + s.gap,
+      "cl_crosshair_drawoutline " + (s.outline > 0 ? "1" : "0"),
+      "cl_crosshair_outlinethickness " + s.outline,
+      "cl_crosshairalpha "   + Math.round(s.opacity * 255),
+      "cl_crosshairdot "     + (s.dot ? "1" : "0"),
+      "cl_crosshair_t "      + (s.top ? "0" : "1")
+    ].join("; ");
+    document.getElementById("cs2Code").textContent = cs2;
+  }
+
+  // スライダー
+  [["chLength","length","chLengthVal"],["chThickness","thickness","chThicknessVal"],
+   ["chGap","gap","chGapVal"],["chOutline","outline","chOutlineVal"],["chOpacity","opacity","chOpacityVal"]
+  ].forEach(function(item) {
+    var el = document.getElementById(item[0]);
+    el.addEventListener("input", function() {
+      settings[item[1]] = parseFloat(this.value);
+      document.getElementById(item[2]).textContent = this.value;
+      draw();
+    });
+  });
+
+  // カラー
+  document.getElementById("chColor").addEventListener("input", function() { settings.color = this.value; draw(); });
+  document.getElementById("chOutlineColor").addEventListener("input", function() { settings.outlineColor = this.value; draw(); });
+
+  // トグル
+  document.querySelectorAll(".ch-toggle-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var opt = this.dataset.opt, val = this.dataset.val === "1";
+      this.closest(".ch-toggle").querySelectorAll(".ch-toggle-btn").forEach(function(b) { b.classList.remove("active"); });
+      this.classList.add("active");
+      settings[opt] = val;
+      draw();
+    });
+  });
+
+  // 背景切り替え
+  document.querySelectorAll(".ch-bg-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      document.querySelectorAll(".ch-bg-btn").forEach(function(b) { b.classList.remove("active"); });
+      this.classList.add("active");
+      bgColor = this.dataset.bg;
+      draw();
+    });
+  });
+
+  // コピー
+  function setupCopy(btnId, codeId, msgId) {
+    document.getElementById(btnId).addEventListener("click", function() {
+      var text = document.getElementById(codeId).textContent;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          var msg = document.getElementById(msgId);
+          msg.style.display = "flex";
+          setTimeout(function() { msg.style.display = "none"; }, 2000);
+        });
+      } else { prompt("コピーしてください:", text); }
+    });
+  }
+  setupCopy("copyValorant", "valorantCode", "copiedValorant");
+  setupCopy("copyCs2",      "cs2Code",      "copiedCs2");
+
+  // プリセット
+  var grid = document.getElementById("presetGrid");
+  PRESETS.forEach(function(p) {
+    var card = document.createElement("div");
+    card.className = "preset-card";
+    card.innerHTML = '<div class="preset-name">' + p.name + '</div><div class="preset-game">' + p.game + '</div>';
+    card.addEventListener("click", function() {
+      Object.assign(settings, { color:p.color, length:p.length, thickness:p.thickness, gap:p.gap, outline:p.outline, opacity:p.opacity, dot:p.dot, top:p.top });
+      // UIを同期
+      document.getElementById("chColor").value        = p.color;
+      document.getElementById("chLength").value       = p.length;    document.getElementById("chLengthVal").textContent    = p.length;
+      document.getElementById("chThickness").value    = p.thickness; document.getElementById("chThicknessVal").textContent = p.thickness;
+      document.getElementById("chGap").value          = p.gap;       document.getElementById("chGapVal").textContent       = p.gap;
+      document.getElementById("chOutline").value      = p.outline;   document.getElementById("chOutlineVal").textContent   = p.outline;
+      document.getElementById("chOpacity").value      = p.opacity;   document.getElementById("chOpacityVal").textContent   = p.opacity;
+      ["dot","top"].forEach(function(opt) {
+        document.querySelectorAll('[data-opt="' + opt + '"]').forEach(function(b) {
+          b.classList.toggle("active", (b.dataset.val === "1") === settings[opt]);
+        });
+      });
+      draw();
+    });
+    grid.appendChild(card);
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>

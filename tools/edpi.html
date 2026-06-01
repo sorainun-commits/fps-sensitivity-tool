@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eDPI計算機 | SensConverter</title>
+  <meta name="description" content="FPS向けeDPI（実効DPI）計算機。感度×DPIでeDPIを算出し、プロゲーマーの平均と比較できます。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link active">eDPI計算</a>
+      <a href="kda.html"         class="nav-link">KDA計算</a>
+      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+  </nav>
+</header>
+
+<main class="page-main-narrow">
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h1 class="section-title" data-ja="⚡ eDPI計算機" data-en="⚡ eDPI Calculator">⚡ eDPI計算機</h1>
+    <p class="section-desc" data-ja="eDPI（実効DPI）= 感度 × DPI。ゲームをまたいで感度を比較するための指標です。" data-en="eDPI (effective DPI) = Sensitivity × DPI. A universal metric to compare sensitivity across games.">eDPI（実効DPI）= 感度 × DPI。ゲームをまたいで感度を比較するための指標です。</p>
+
+    <div class="form-grid-2" style="margin-bottom:20px;">
+      <div class="form-group">
+        <label class="form-label" for="edpiSens" data-ja="ゲーム内感度" data-en="In-game Sensitivity">ゲーム内感度</label>
+        <input type="number" id="edpiSens" placeholder="例: 0.4" step="0.01" min="0.001" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="edpiDpi" data-ja="マウスDPI" data-en="Mouse DPI">マウスDPI</label>
+        <input type="number" id="edpiDpi" placeholder="例: 800" step="100" min="100" />
+      </div>
+    </div>
+    <button id="edpiCalcBtn" class="btn btn-primary" data-ja="計算する" data-en="Calculate">計算する</button>
+  </section>
+
+  <section class="card fade-in" id="edpiResult" style="display:none; margin-bottom:24px;">
+    <h2 class="section-title" data-ja="計算結果" data-en="Result">計算結果</h2>
+    <div class="edpi-result-big">
+      <div class="edpi-number" id="edpiValue">—</div>
+      <div class="edpi-label">eDPI</div>
+      <div id="edpiEval" class="edpi-eval"></div>
+    </div>
+    <div id="edpiDesc" style="color:var(--text-muted);font-size:0.88rem;text-align:center;margin-bottom:24px;"></div>
+
+    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:14px;" data-ja="プロのeDPIと比較" data-en="Compare with Pro eDPI">プロのeDPIと比較</h3>
+    <div class="pro-compare-table" id="edpiCompare"></div>
+  </section>
+
+  <div class="ad-space" style="margin-top:8px;">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+  </div>
+
+  <!-- 関連ツール -->
+  <section class="card fade-in" style="margin-top:0;">
+    <h2 class="section-title">🔗 関連ツール</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;">
+      <a href="sensitivity.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border:1.5px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <span style="font-size:1.3rem;">🎯</span><div><div style="font-size:0.85rem;font-weight:700;">感度変換</div><div style="font-size:0.75rem;color:var(--text-muted);">25ゲーム対応</div></div>
+      </a>
+      <a href="winsens.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border:1.5px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <span style="font-size:1.3rem;">🪟</span><div><div style="font-size:0.85rem;font-weight:700;">Windows感度</div><div style="font-size:0.75rem;color:var(--text-muted);">OS設定の影響を確認</div></div>
+      </a>
+      <a href="pros.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border:1.5px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <span style="font-size:1.3rem;">🏆</span><div><div style="font-size:0.85rem;font-weight:700;">プロ設定DB</div><div style="font-size:0.75rem;color:var(--text-muted);">プロのeDPIを参考に</div></div>
+      </a>
+      <a href="polling.html" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border:1.5px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <span style="font-size:1.3rem;">🖱️</span><div><div style="font-size:0.85rem;font-weight:700;">ポーリングレート</div><div style="font-size:0.75rem;color:var(--text-muted);">マウス遅延を確認</div></div>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="../contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+  var PRO_EDPI = [
+    { name: "TenZ",        edpi: 218.4,  game: "Valorant" },
+    { name: "Shroud",      edpi: 520,    game: "Valorant" },
+    { name: "s1mple",      edpi: 845.6,  game: "CS2" },
+    { name: "ZywOo",       edpi: 1012,   game: "CS2" },
+    { name: "Faker (OW2)", edpi: 1320,   game: "Overwatch 2" }
+  ];
+  var MAX_EDPI = 1500;
+
+  document.getElementById("edpiCalcBtn").addEventListener("click", function() {
+    var sens = parseFloat(document.getElementById("edpiSens").value);
+    var dpi  = parseFloat(document.getElementById("edpiDpi").value);
+    if (!sens || !dpi || sens <= 0 || dpi <= 0) { alert("感度とDPIを正しく入力してください。"); return; }
+
+    var edpi = sens * dpi;
+    document.getElementById("edpiValue").textContent = Math.round(edpi).toLocaleString();
+
+    var evalEl = document.getElementById("edpiEval");
+    var descEl = document.getElementById("edpiDesc");
+    if (edpi < 400) {
+      evalEl.className = "edpi-eval edpi-low";
+      evalEl.textContent = "低感度 (Low)";
+      descEl.textContent = "eDPI 400未満は低感度域。精密なエイムに向いていますが、素早い振り向きが難しくなります。";
+    } else if (edpi < 800) {
+      evalEl.className = "edpi-eval edpi-mid";
+      evalEl.textContent = "中感度 (Mid)";
+      descEl.textContent = "eDPI 400〜800は多くのプロが使う中感度域。バランスが取れた設定です。";
+    } else {
+      evalEl.className = "edpi-eval edpi-high";
+      evalEl.textContent = "高感度 (High)";
+      descEl.textContent = "eDPI 800以上は高感度域。素早い反応に向いていますが、精密なエイムには慣れが必要です。";
+    }
+
+    var html = '';
+    var allData = PRO_EDPI.concat([{ name: "あなた", edpi: edpi, game: "—", isUser: true }]);
+    allData.sort(function(a, b) { return a.edpi - b.edpi; });
+    allData.forEach(function(p) {
+      var pct = Math.min(100, (p.edpi / MAX_EDPI) * 100);
+      html += '<div class="pro-compare-row' + (p.isUser ? ' user-compare-row' : '') + '">' +
+        '<div class="pro-compare-name">' + p.name + '</div>' +
+        '<div class="pro-compare-bar-wrap"><div class="pro-compare-bar-fill" style="width:' + pct + '%"></div></div>' +
+        '<div class="pro-compare-val">' + Math.round(p.edpi).toLocaleString() + '</div>' +
+        '</div>';
+    });
+    document.getElementById("edpiCompare").innerHTML = html;
+    document.getElementById("edpiResult").style.display = "block";
+    document.getElementById("edpiResult").scrollIntoView({ behavior: "smooth" });
+  });
+})();
+</script>
+</body>
+</html>

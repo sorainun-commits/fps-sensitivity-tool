@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FPS初心者ガイド — 感度・DPI・設定の全部わかる取扱説明書 | SensConverter</title>
+  <meta name="description" content="FPS初心者向けの完全ガイド。マウス感度・DPI・eDPI・cm/360・Windows設定・クロスヘアの意味と最適な設定方法をわかりやすく解説。" />
+  <meta name="keywords" content="FPS初心者,マウス感度 設定,DPI おすすめ,eDPI とは,cm360 とは,FPS 設定方法" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sensconverter.vercel.app/guide.html" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .guide-toc {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .guide-toc-title { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .guide-toc ol { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+    .guide-toc li { font-size: 0.9rem; }
+    .guide-toc a { color: var(--accent2); text-decoration: none; }
+    .guide-toc a:hover { text-decoration: underline; }
+
+    .guide-section { margin-bottom: 40px; }
+    .guide-section h2 {
+      font-size: 1.3rem; font-weight: 900; color: var(--text);
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .guide-section h2 .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; font-size: 0.9rem; font-weight: 900; flex-shrink: 0;
+      box-shadow: var(--neon-pur);
+    }
+    .guide-section h3 { font-size: 1rem; font-weight: 700; color: var(--accent2); margin: 20px 0 8px; }
+    .guide-section p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+    .guide-section ul, .guide-section ol { padding-left: 20px; margin-bottom: 12px; }
+    .guide-section li { font-size: 0.92rem; color: var(--text-muted); line-height: 1.8; }
+    .guide-section strong { color: var(--text); }
+
+    .tip-box {
+      background: rgba(124,92,252,0.08);
+      border: 1px solid rgba(124,92,252,0.3);
+      border-left: 3px solid var(--accent2);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .tip-box strong { color: var(--accent2); }
+
+    .warn-box {
+      background: rgba(255,70,85,0.08);
+      border: 1px solid rgba(255,70,85,0.3);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .warn-box strong { color: var(--accent); }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 16px 0; }
+    .data-table th { background: var(--card2); color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(124,92,252,0.04); }
+    .data-table .highlight td { color: var(--text); font-weight: 700; }
+
+    .tool-link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
+    .tool-link-card {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; background: var(--card2);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      text-decoration: none; color: var(--text); transition: all 0.2s;
+    }
+    .tool-link-card:hover { border-color: var(--accent2); text-decoration: none; color: var(--text); }
+    .tool-link-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .tool-link-title { font-size: 0.85rem; font-weight: 700; }
+    .tool-link-desc  { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="tools/sensitivity.html" class="nav-link">感度変換</a>
+      <a href="tools/edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="tools/kda.html"         class="nav-link">KDA計算</a>
+      <a href="tools/pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="tools/crosshair.html"   class="nav-link">クロスヘア</a>
+      <a href="tools/reaction.html"    class="nav-link">反応速度</a>
+      <a href="guide.html"             class="nav-link active">📖 初心者ガイド</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="index.html"              class="nav-link">🏠 トップ</a>
+    <a href="tools/sensitivity.html"  class="nav-link">🎯 感度変換</a>
+    <a href="tools/edpi.html"         class="nav-link">⚡ eDPI計算</a>
+    <a href="tools/pros.html"         class="nav-link">🏆 プロ設定DB</a>
+    <a href="tools/crosshair.html"    class="nav-link">✛ クロスヘア</a>
+    <a href="guide.html"              class="nav-link">📖 初心者ガイド</a>
+  </nav>
+</header>
+
+<main class="page-main-narrow">
+  <div style="text-align:center;padding:40px 0 32px;">
+    <p style="font-size:0.78rem;font-weight:700;color:var(--accent3);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px;">BEGINNER'S GUIDE</p>
+    <h1 style="font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:var(--text);margin-bottom:12px;">FPS設定 完全取扱説明書</h1>
+    <p style="color:var(--text-muted);font-size:0.95rem;max-width:480px;margin:0 auto;">感度・DPI・eDPI・クロスヘアまで、FPS初心者が知っておくべきことを全部まとめました。</p>
+  </div>
+
+  <!-- 目次 -->
+  <div class="guide-toc">
+    <div class="guide-toc-title">📋 目次</div>
+    <ol>
+      <li><a href="#dpi">DPIとは何か</a></li>
+      <li><a href="#sensitivity">ゲーム内感度とは</a></li>
+      <li><a href="#edpi">eDPI（実効DPI）とは</a></li>
+      <li><a href="#cm360">cm/360とは</a></li>
+      <li><a href="#windows">Windows感度の設定</a></li>
+      <li><a href="#crosshair">クロスヘアの設定</a></li>
+      <li><a href="#howto">このサイトの使い方</a></li>
+      <li><a href="#recommend">初心者におすすめの設定値</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. DPI -->
+  <section class="card guide-section fade-in" id="dpi" style="margin-bottom:20px;">
+    <h2><span class="num">1</span>DPIとは何か</h2>
+    <p><strong>DPI（Dots Per Inch）</strong>は、マウスを1インチ（約2.54cm）動かしたときにカーソルが何ドット移動するかを表す数値です。</p>
+    <p>DPIが高いほどマウスを少し動かすだけでカーソルが大きく動き、低いほど大きく動かさないとカーソルが動きません。</p>
+    <div class="tip-box"><strong>💡 ポイント：</strong>DPIはマウス本体のハードウェア設定です。マウスのボタンやソフトウェアで変更できます。</div>
+    <h3>プロゲーマーのDPI分布</h3>
+    <table class="data-table">
+      <thead><tr><th>DPI</th><th>特徴</th><th>プロの使用率</th></tr></thead>
+      <tbody>
+        <tr><td>400</td><td>低DPI。大きく動かす必要があるが精密</td><td>約45%</td></tr>
+        <tr class="highlight"><td>800</td><td>最も一般的。バランスが良い</td><td>約35%</td></tr>
+        <tr><td>1600</td><td>高DPI。少ない動きで大きく動く</td><td>約12%</td></tr>
+        <tr><td>その他</td><td>—</td><td>約8%</td></tr>
+      </tbody>
+    </table>
+    <div class="warn-box"><strong>⚠️ 注意：</strong>DPIを上げても精度が上がるわけではありません。ゲーム内感度を下げて同じ実効感度にすれば結果は同じです。</div>
+  </section>
+
+  <!-- 2. ゲーム内感度 -->
+  <section class="card guide-section fade-in" id="sensitivity" style="margin-bottom:20px;">
+    <h2><span class="num">2</span>ゲーム内感度とは</h2>
+    <p>ゲーム内感度は、ゲームの設定画面で変更できる感度の数値です。ゲームによって単位や範囲が異なります。</p>
+    <ul>
+      <li><strong>Valorant：</strong>0.1〜10（プロ平均 約0.4〜0.8）</li>
+      <li><strong>CS2：</strong>0.1〜10（プロ平均 約1.0〜2.5）</li>
+      <li><strong>Apex Legends：</strong>0.1〜3.0（プロ平均 約1.0〜2.0）</li>
+    </ul>
+    <div class="tip-box"><strong>💡 ポイント：</strong>ゲームが違うと感度の数値の意味も違います。「Valorant 0.4」と「CS2 0.4」は全く異なる速さです。このサイトの感度変換ツールで正確に換算できます。</div>
+    <div class="tool-link-grid">
+      <a href="tools/sensitivity.html" class="tool-link-card">
+        <span class="tool-link-icon">🎯</span>
+        <div><div class="tool-link-title">感度変換ツール</div><div class="tool-link-desc">ゲーム間の感度を換算</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3. eDPI -->
+  <section class="card guide-section fade-in" id="edpi" style="margin-bottom:20px;">
+    <h2><span class="num">3</span>eDPI（実効DPI）とは</h2>
+    <p><strong>eDPI = DPI × ゲーム内感度</strong></p>
+    <p>ゲームをまたいで感度を比較するための共通指標です。ゲームが違っても同じeDPIなら同じ速さになります（ゲームのYAW値が同じ場合）。</p>
+    <h3>eDPIの目安</h3>
+    <table class="data-table">
+      <thead><tr><th>eDPI</th><th>感度の傾向</th><th>向いているプレイスタイル</th></tr></thead>
+      <tbody>
+        <tr><td>〜400</td><td>低感度</td><td>精密なエイム重視（スナイパー等）</td></tr>
+        <tr class="highlight"><td>400〜800</td><td>中感度</td><td>バランス型（多くのプロが使用）</td></tr>
+        <tr><td>800〜</td><td>高感度</td><td>素早い反応重視</td></tr>
+      </tbody>
+    </table>
+    <div class="tool-link-grid">
+      <a href="tools/edpi.html" class="tool-link-card">
+        <span class="tool-link-icon">⚡</span>
+        <div><div class="tool-link-title">eDPI計算機</div><div class="tool-link-desc">自分のeDPIを計算・比較</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 4. cm/360 -->
+  <section class="card guide-section fade-in" id="cm360" style="margin-bottom:20px;">
+    <h2><span class="num">4</span>cm/360とは</h2>
+    <p><strong>cm/360</strong>は、ゲーム内で360度振り向くのに必要なマウスの移動距離（センチメートル）です。</p>
+    <p>eDPIよりも正確な感度の比較指標で、ゲームのYAW値の違いも考慮されます。</p>
+    <ul>
+      <li><strong>cm/360が小さい（例：15cm）</strong>→ 高感度。少し動かすだけで大きく回転</li>
+      <li><strong>cm/360が大きい（例：50cm）</strong>→ 低感度。大きく動かさないと回転しない</li>
+    </ul>
+    <div class="tip-box"><strong>💡 プロの平均：</strong>多くのプロは20〜45cmの範囲を使用しています。初心者は30〜40cmから始めるのがおすすめです。</div>
+  </section>
+
+  <!-- 5. Windows感度 -->
+  <section class="card guide-section fade-in" id="windows" style="margin-bottom:20px;">
+    <h2><span class="num">5</span>Windows感度の設定</h2>
+    <p>Windowsのマウス設定にも「ポインター速度」があります。これがゲームの感度に影響します。</p>
+    <div class="warn-box"><strong>⚠️ 重要：</strong>FPSをプレイするなら必ず以下の2つを設定してください。<br>① Windows感度を<strong>6（中央）</strong>に設定する<br>② 「ポインターの精度を高める」（マウス加速）を<strong>オフ</strong>にする</div>
+    <p>マウス加速がオンだと、同じ感度設定でも動かす速さによってカーソルの移動量が変わるため、エイムが安定しません。</p>
+    <div class="tool-link-grid">
+      <a href="tools/winsens.html" class="tool-link-card">
+        <span class="tool-link-icon">🪟</span>
+        <div><div class="tool-link-title">Windows感度変換</div><div class="tool-link-desc">OS設定の影響を計算</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6. クロスヘア -->
+  <section class="card guide-section fade-in" id="crosshair" style="margin-bottom:20px;">
+    <h2><span class="num">6</span>クロスヘアの設定</h2>
+    <p>クロスヘア（照準）はゲームによってカスタマイズできます。見やすいクロスヘアを使うことで、エイムの精度が上がります。</p>
+    <h3>初心者におすすめのクロスヘア</h3>
+    <ul>
+      <li>色：<strong>緑（#00ff00）または白</strong>（背景に溶け込みにくい）</li>
+      <li>サイズ：<strong>小さめ</strong>（ターゲットを隠さない）</li>
+      <li>センタードット：<strong>なし</strong>（精密なエイムに向いている）</li>
+    </ul>
+    <div class="tool-link-grid">
+      <a href="tools/crosshair.html" class="tool-link-card">
+        <span class="tool-link-icon">✛</span>
+        <div><div class="tool-link-title">クロスヘアジェネレーター</div><div class="tool-link-desc">リアルタイムプレビューで作成</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 7. サイトの使い方 -->
+  <section class="card guide-section fade-in" id="howto" style="margin-bottom:20px;">
+    <h2><span class="num">7</span>このサイトの使い方</h2>
+    <h3>🎯 感度変換ツール</h3>
+    <ol>
+      <li>「変換元ゲーム」に今使っているゲームを選ぶ</li>
+      <li>「現在の感度」に今の感度を入力する</li>
+      <li>「マウスDPI」にマウスのDPIを入力する</li>
+      <li>「変換先ゲーム」に移行したいゲームを選ぶ</li>
+      <li>入力した瞬間に変換後の感度が表示される</li>
+    </ol>
+    <h3>🏆 プロ設定DBの使い方</h3>
+    <ol>
+      <li>ゲームでフィルタリングして好きなプロを探す</li>
+      <li>「変換する」ボタンを押すとそのプロの感度で感度変換ツールが開く</li>
+      <li>自分のDPIに合わせた感度が自動計算される</li>
+    </ol>
+    <h3>⚡ 反応速度テストの使い方</h3>
+    <ol>
+      <li>テストエリアをクリックしてスタート</li>
+      <li>画面が赤くなったらすぐクリック</li>
+      <li>5回計測して平均・評価が表示される</li>
+      <li>疲れているときは遅くなるので、ウォームアップ後に計測するのがおすすめ</li>
+    </ol>
+  </section>
+
+  <!-- 8. おすすめ設定値 -->
+  <section class="card guide-section fade-in" id="recommend" style="margin-bottom:20px;">
+    <h2><span class="num">8</span>初心者におすすめの設定値</h2>
+    <div class="tip-box"><strong>💡 まずはここから始めよう：</strong></div>
+    <table class="data-table">
+      <thead><tr><th>設定項目</th><th>おすすめ値</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>マウスDPI</td><td><strong>800</strong></td><td>最も一般的。後から変えやすい</td></tr>
+        <tr><td>Windows感度</td><td><strong>6（中央）</strong></td><td>等倍。プロの78%が使用</td></tr>
+        <tr><td>マウス加速</td><td><strong>オフ</strong></td><td>エイムを安定させるため必須</td></tr>
+        <tr><td>eDPI目安</td><td><strong>400〜600</strong></td><td>初心者〜中級者に適した範囲</td></tr>
+        <tr><td>cm/360目安</td><td><strong>30〜40cm</strong></td><td>バランスが良く練習しやすい</td></tr>
+      </tbody>
+    </table>
+    <p>感度は慣れが大切です。一度決めたら<strong>最低2週間は変えずに</strong>練習することをおすすめします。頻繁に変えると筋肉記憶が定着しません。</p>
+  </section>
+
+  <!-- 全ツール一覧 -->
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h2 class="section-title">🛠️ 全ツール一覧</h2>
+    <div class="tool-link-grid">
+      <a href="tools/sensitivity.html" class="tool-link-card"><span class="tool-link-icon">🎯</span><div><div class="tool-link-title">感度変換</div><div class="tool-link-desc">25ゲーム対応</div></div></a>
+      <a href="tools/edpi.html"        class="tool-link-card"><span class="tool-link-icon">⚡</span><div><div class="tool-link-title">eDPI計算機</div><div class="tool-link-desc">プロと比較</div></div></a>
+      <a href="tools/kda.html"         class="tool-link-card"><span class="tool-link-icon">💀</span><div><div class="tool-link-title">KDA計算機</div><div class="tool-link-desc">試合履歴を記録</div></div></a>
+      <a href="tools/timer.html"       class="tool-link-card"><span class="tool-link-icon">⏱️</span><div><div class="tool-link-title">練習タイマー</div><div class="tool-link-desc">練習時間を管理</div></div></a>
+      <a href="tools/pros.html"        class="tool-link-card"><span class="tool-link-icon">🏆</span><div><div class="tool-link-title">プロ設定DB</div><div class="tool-link-desc">20名以上のデータ</div></div></a>
+      <a href="tools/crosshair.html"   class="tool-link-card"><span class="tool-link-icon">✛</span><div><div class="tool-link-title">クロスヘア</div><div class="tool-link-desc">Valorant/CS2対応</div></div></a>
+      <a href="tools/reaction.html"    class="tool-link-card"><span class="tool-link-icon">⚡</span><div><div class="tool-link-title">反応速度テスト</div><div class="tool-link-desc">プロと比較</div></div></a>
+      <a href="tools/winsens.html"     class="tool-link-card"><span class="tool-link-icon">🪟</span><div><div class="tool-link-title">Windows感度</div><div class="tool-link-desc">OS設定を最適化</div></div></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="index.html">トップページ</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
