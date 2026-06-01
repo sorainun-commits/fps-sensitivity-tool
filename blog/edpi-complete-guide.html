@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eDPIとは？完全解説【計算方法・おすすめ値・プロとの比較】| SensConverter</title>
+  <meta name="description" content="eDPI（実効DPI）とは何かをわかりやすく解説。計算方法・おすすめ値・プロゲーマーとの比較・DPIと感度の関係を初心者向けに説明します。" />
+  <meta name="keywords" content="eDPI とは,eDPI 計算,eDPI おすすめ,実効DPI,DPI 感度 関係,FPS eDPI" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://fps-sensitivity-tool2.vercel.app/blog/edpi-complete-guide.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"eDPIとは？完全解説","datePublished":"2026-06-01","author":{"@type":"Organization","name":"SensConverter"}}</script>
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav">
+      <a href="../tools/sensitivity.html" class="nav-link">感度変換</a>
+      <a href="../tools/edpi.html" class="nav-link">eDPI計算</a>
+      <a href="../tools/pros.html" class="nav-link">プロ設定DB</a>
+      <a href="../guide.html" class="nav-link">初心者ガイド</a>
+      <a href="index.html" class="nav-link active">ブログ</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn">EN</button>
+      <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="../index.html" class="nav-link">🏠 トップ</a>
+    <a href="../tools/sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="index.html" class="nav-link">📝 ブログ</a>
+  </nav>
+</header>
+
+<div class="blog-hero">
+  <p class="blog-eyebrow">FPS 基礎知識</p>
+  <h1 class="blog-title">eDPIとは？完全解説<br>【計算方法・おすすめ値・プロとの比較】</h1>
+  <div class="blog-meta">
+    <span>📅 2026年6月1日</span><span>⏱️ 約10分</span><span>📚 基礎知識</span>
+  </div>
+</div>
+
+<div class="blog-body">
+  <div class="ad-space"><span>広告スペース</span></div>
+
+  <p>「eDPI」という言葉をFPSコミュニティでよく見かけますが、意味がわからないという人も多いです。この記事では<strong>eDPIとは何か、なぜ重要なのか、どう使うのか</strong>を初心者にもわかりやすく解説します。</p>
+
+  <h2>eDPIとは何か</h2>
+  <p><strong>eDPI（effective DPI / 実効DPI）</strong>は、マウスのDPIとゲーム内感度を掛け合わせた値です。</p>
+  <p style="text-align:center;font-size:1.2rem;font-weight:900;color:var(--accent2);padding:20px;background:var(--card2);border-radius:var(--radius-sm);margin:16px 0;">eDPI = DPI × ゲーム内感度</p>
+  <p>例えば、DPI800でValorant感度0.4の場合：<br><strong>eDPI = 800 × 0.4 = 320</strong></p>
+
+  <h2>なぜeDPIが重要なのか</h2>
+  <p>DPIと感度は別々に設定できますが、実際の感度の速さはこの2つの組み合わせで決まります。</p>
+  <p>例えば以下の3つの設定は<strong>全て同じ速さ</strong>です：</p>
+  <table class="blog-table">
+    <thead><tr><th>DPI</th><th>感度</th><th>eDPI</th><th>速さ</th></tr></thead>
+    <tbody>
+      <tr><td>400</td><td>1.0</td><td class="hl">400</td><td>同じ</td></tr>
+      <tr><td>800</td><td>0.5</td><td class="hl">400</td><td>同じ</td></tr>
+      <tr><td>1600</td><td>0.25</td><td class="hl">400</td><td>同じ</td></tr>
+    </tbody>
+  </table>
+  <p>eDPIを使うことで、DPIと感度の組み合わせが違っても<strong>同じ基準で感度を比較できます。</strong></p>
+
+  <h2>ゲーム別おすすめeDPI</h2>
+  <table class="blog-table">
+    <thead><tr><th>ゲーム</th><th>低感度</th><th>中感度（推奨）</th><th>高感度</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">Valorant</td><td>〜300</td><td>300〜500</td><td>500〜</td></tr>
+      <tr><td class="hl">CS2</td><td>〜500</td><td>500〜900</td><td>900〜</td></tr>
+      <tr><td class="hl">Apex Legends</td><td>〜700</td><td>700〜1200</td><td>1200〜</td></tr>
+      <tr><td class="hl">Overwatch 2</td><td>〜2000</td><td>2000〜4000</td><td>4000〜</td></tr>
+    </tbody>
+  </table>
+
+  <div class="blog-warn">
+    <strong>⚠️ ゲームによってeDPIの目安が大きく違う理由</strong><br>
+    ゲームによってYAW値（感度係数）が異なるため、同じeDPIでも実際の速さが違います。ValorantのeDPI 400とCS2のeDPI 400は同じ速さではありません。
+  </div>
+
+  <h2>プロゲーマーのeDPI比較</h2>
+  <table class="blog-table">
+    <thead><tr><th>プレイヤー</th><th>ゲーム</th><th>DPI</th><th>感度</th><th>eDPI</th></tr></thead>
+    <tbody>
+      <tr><td class="hl">TenZ</td><td>Valorant</td><td>1600</td><td>0.40</td><td class="hl">640</td></tr>
+      <tr><td class="hl">s1mple</td><td>CS2</td><td>400</td><td>3.09</td><td class="hl">1236</td></tr>
+      <tr><td class="hl">Genburten</td><td>Apex</td><td>400</td><td>1.60</td><td class="hl">640</td></tr>
+      <tr><td class="hl">Shroud</td><td>Valorant</td><td>400</td><td>0.78</td><td class="hl">312</td></tr>
+    </tbody>
+  </table>
+
+  <h2>eDPIとcm/360の違い</h2>
+  <p>eDPIに似た指標として<strong>cm/360</strong>があります。</p>
+  <ul>
+    <li><strong>eDPI：</strong>DPI×感度の単純な掛け算。ゲームのYAW値を考慮しない</li>
+    <li><strong>cm/360：</strong>360度振り向くのに必要なマウスの移動距離。ゲームをまたいで正確に比較できる</li>
+  </ul>
+  <p>より正確な比較には<strong>cm/360</strong>を使うのがおすすめです。感度変換ツールでcm/360も自動計算されます。</p>
+
+  <h2>自分のeDPIを計算する方法</h2>
+  <p>計算は簡単です。DPIと感度を入力するだけで自動計算されます。</p>
+
+  <div class="blog-cta">
+    <h3>⚡ eDPI計算機で今すぐ確認</h3>
+    <p>自分のeDPIを計算してプロと比較しよう。</p>
+    <a href="../tools/edpi.html" class="btn btn-primary" style="width:auto;padding:12px 32px;">eDPI計算機を使う →</a>
+  </div>
+
+  <h2>まとめ</h2>
+  <ul>
+    <li>eDPI = <strong>DPI × ゲーム内感度</strong></li>
+    <li>eDPIが同じなら、DPIと感度の組み合わせが違っても<strong>同じ速さ</strong></li>
+    <li>Valorantのおすすめは<strong>eDPI 300〜500</strong></li>
+    <li>より正確な比較には<strong>cm/360</strong>を使う</li>
+    <li>eDPI計算機でプロとの比較ができる</li>
+  </ul>
+
+  <div class="ad-space" style="margin-top:32px;"><span>広告スペース</span></div>
+  <div class="blog-nav">
+    <a href="valorant-to-apex-sensitivity.html">← Valorant→Apex変換ガイド</a>
+    <a href="fps-mouse-guide.html">FPSマウス選び方ガイド →</a>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../index.html">トップページ</a>
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+</footer>
+<script src="../script.js"></script>
+</body>
+</html>
+

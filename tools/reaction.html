@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>反応速度テスト | SensConverter</title>
+  <meta name="description" content="FPS向け反応速度テスト。クリックで計測し、平均・最速・最遅を記録。プロゲーマーの平均反応速度と比較できます。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+  <style>
+    .reaction-area {
+      width: 100%;
+      min-height: 260px;
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+      border: 2px solid var(--border);
+    }
+    .reaction-area.state-wait {
+      background: #1a1a2e;
+    }
+    .reaction-area.state-ready {
+      background: #1a2e1a;
+      border-color: var(--success);
+    }
+    .reaction-area.state-go {
+      background: #1f0a0a;
+      border-color: var(--accent);
+      animation: pulse-red 0.3s ease;
+    }
+    .reaction-area.state-result {
+      background: #1a1a2e;
+      border-color: var(--accent2);
+    }
+    .reaction-area.state-toosoon {
+      background: #2e1a00;
+      border-color: var(--warning);
+    }
+    @keyframes pulse-red {
+      0%   { box-shadow: 0 0 0 0 rgba(255,70,85,0.6); }
+      100% { box-shadow: 0 0 0 20px rgba(255,70,85,0); }
+    }
+    .reaction-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+    .reaction-main-text {
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      font-weight: 900;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.2;
+    }
+    .reaction-sub-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      text-align: center;
+    }
+    .reaction-time-big {
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .reaction-time-unit {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--text);
+      display: block;
+    }
+    .stat-value.good  { color: var(--success); }
+    .stat-value.ok    { color: var(--warning); }
+    .stat-value.slow  { color: var(--accent); }
+
+    .history-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .history-bar-row:last-child { border-bottom: none; }
+    .history-bar-num  { width: 24px; color: var(--text-dim); flex-shrink: 0; text-align: right; }
+    .history-bar-wrap { flex: 1; background: var(--border); border-radius: 999px; height: 6px; overflow: hidden; }
+    .history-bar-fill { height: 100%; border-radius: 999px; }
+    .history-bar-val  { width: 60px; text-align: right; font-weight: 700; flex-shrink: 0; }
+
+    .pro-reaction-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+    }
+    .pro-reaction-name { font-weight: 700; color: var(--text); }
+    .pro-reaction-val  { font-weight: 800; color: var(--accent2); }
+    .pro-reaction-note { font-size: 0.75rem; color: var(--text-muted); }
+
+    .grade-display {
+      text-align: center;
+      padding: 20px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+    .grade-letter {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .grade-desc { font-size: 0.88rem; color: var(--text-muted); }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="kda.html"         class="nav-link">KDA計算</a>
+      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+      <a href="reaction.html"    class="nav-link active">反応速度</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+    <a href="polling.html"     class="nav-link">🖱️ ポーリング</a>
+    <a href="fov.html"         class="nav-link">📐 FOV計算</a>
+    <a href="reaction.html"    class="nav-link">⚡ 反応速度</a>
+  </nav>
+</header>
+
+<main class="page-main-narrow">
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+  </div>
+
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h1 class="section-title" data-ja="⚡ 反応速度テスト" data-en="⚡ Reaction Time Test">⚡ 反応速度テスト</h1>
+    <p class="section-desc" data-ja="画面が赤くなったらすぐクリック。5回計測して平均を出します。" data-en="Click as soon as the screen turns red. Measures 5 times and calculates your average.">画面が赤くなったらすぐクリック。5回計測して平均を出します。</p>
+
+    <!-- テストエリア -->
+    <div class="reaction-area state-wait" id="reactionArea" role="button" tabindex="0" aria-label="反応速度テストエリア">
+      <div class="reaction-icon" id="reactionIcon">🖱️</div>
+      <div class="reaction-main-text" id="reactionMainText" data-ja="クリックしてスタート" data-en="Click to Start">クリックしてスタート</div>
+      <div class="reaction-sub-text" id="reactionSubText" data-ja="準備ができたらクリック" data-en="Click when ready">準備ができたらクリック</div>
+    </div>
+
+    <!-- 試行カウンター -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <span style="font-size:0.85rem;color:var(--text-muted);" id="trialLabel" data-ja="試行: 0 / 5" data-en="Trial: 0 / 5">試行: 0 / 5</span>
+      <button id="resetBtn" class="btn btn-ghost btn-sm" data-ja="リセット" data-en="Reset">リセット</button>
+    </div>
+
+    <!-- 統計 -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-label" data-ja="平均" data-en="Average">平均</span>
+        <span class="stat-value" id="statAvg">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label" data-ja="最速" data-en="Best">最速</span>
+        <span class="stat-value good" id="statBest">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label" data-ja="最遅" data-en="Worst">最遅</span>
+        <span class="stat-value slow" id="statWorst">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label" data-ja="試行回数" data-en="Trials">試行回数</span>
+        <span class="stat-value" id="statCount">0</span>
+      </div>
+    </div>
+
+    <!-- 履歴バー -->
+    <div id="historySection" style="display:none;">
+      <h3 style="font-size:0.88rem;font-weight:700;color:var(--text-muted);margin-bottom:10px;" data-ja="各試行の結果" data-en="Trial Results">各試行の結果</h3>
+      <div id="historyBars"></div>
+    </div>
+  </section>
+
+  <!-- 評価・グレード -->
+  <section class="card fade-in" id="gradeSection" style="display:none;margin-bottom:24px;">
+    <h2 class="section-title" data-ja="あなたの評価" data-en="Your Rating">あなたの評価</h2>
+    <div class="grade-display">
+      <div class="grade-letter" id="gradeLetter">—</div>
+      <div class="grade-desc" id="gradeDesc"></div>
+    </div>
+    <div style="font-size:0.82rem;color:var(--text-muted);text-align:center;line-height:1.6;" id="gradeDetail"></div>
+  </section>
+
+  <!-- プロとの比較 -->
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h2 class="section-title" data-ja="プロゲーマーの平均反応速度" data-en="Pro Gamer Average Reaction Time">プロゲーマーの平均反応速度</h2>
+    <p class="section-desc" data-ja="一般的なプロゲーマーの反応速度の目安です。テスト環境・遅延により変動します。" data-en="Reference reaction times for pro gamers. May vary by test environment and latency.">一般的なプロゲーマーの反応速度の目安です。テスト環境・遅延により変動します。</p>
+    <div id="proReactionList"></div>
+    <p style="font-size:0.75rem;color:var(--text-dim);margin-top:12px;" data-ja="※ 反応速度はモニター遅延・マウス遅延・個人差により大きく変動します。このテストはブラウザ上での計測のため、実際のゲーム内反応速度とは異なる場合があります。" data-en="※ Reaction time varies greatly by monitor latency, mouse latency, and individual differences. This browser-based test may differ from in-game reaction time.">※ 反応速度はモニター遅延・マウス遅延・個人差により大きく変動します。このテストはブラウザ上での計測のため、実際のゲーム内反応速度とは異なる場合があります。</p>
+  </section>
+
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="../contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+  var MAX_TRIALS = 5;
+  var state      = "wait";   // wait | ready | go | result | toosoon
+  var startTime  = 0;
+  var timeoutId  = null;
+  var results    = [];
+
+  var area      = document.getElementById("reactionArea");
+  var iconEl    = document.getElementById("reactionIcon");
+  var mainText  = document.getElementById("reactionMainText");
+  var subText   = document.getElementById("reactionSubText");
+  var trialLbl  = document.getElementById("trialLabel");
+  var statAvg   = document.getElementById("statAvg");
+  var statBest  = document.getElementById("statBest");
+  var statWorst = document.getElementById("statWorst");
+  var statCount = document.getElementById("statCount");
+
+  var PRO_REACTIONS = [
+    { name: "プロゲーマー平均",   ms: 150, note: "FPS競技プレイヤー全体の平均" },
+    { name: "トップ1%プレイヤー", ms: 120, note: "上位1%の反応速度" },
+    { name: "一般ゲーマー平均",   ms: 200, note: "カジュアルゲーマーの平均" },
+    { name: "人間の平均",         ms: 250, note: "一般的な人間の視覚反応速度" }
+  ];
+
+  // プロ一覧描画
+  var proList = document.getElementById("proReactionList");
+  PRO_REACTIONS.forEach(function(p) {
+    proList.innerHTML +=
+      '<div class="pro-reaction-row">' +
+        '<span class="pro-reaction-name">' + p.name + '</span>' +
+        '<span class="pro-reaction-note">' + p.note + '</span>' +
+        '<span class="pro-reaction-val">' + p.ms + ' ms</span>' +
+      '</div>';
+  });
+
+  function setState(s) {
+    state = s;
+    area.className = "reaction-area state-" + s;
+    if (s === "wait") {
+      iconEl.textContent   = "🖱️";
+      mainText.textContent = "クリックしてスタート";
+      subText.textContent  = "準備ができたらクリック";
+    } else if (s === "ready") {
+      iconEl.textContent   = "⏳";
+      mainText.textContent = "待って…";
+      subText.textContent  = "赤くなったらすぐクリック！";
+    } else if (s === "go") {
+      iconEl.textContent   = "🔴";
+      mainText.textContent = "今すぐクリック！";
+      subText.textContent  = "";
+    } else if (s === "toosoon") {
+      iconEl.textContent   = "⚠️";
+      mainText.textContent = "早すぎ！";
+      subText.textContent  = "クリックして再挑戦";
+    }
+  }
+
+  function updateStats() {
+    statCount.textContent = results.length;
+    trialLbl.textContent  = "試行: " + results.length + " / " + MAX_TRIALS;
+    if (results.length === 0) {
+      statAvg.textContent = statBest.textContent = statWorst.textContent = "—";
+      return;
+    }
+    var avg   = Math.round(results.reduce(function(s,v){return s+v;},0) / results.length);
+    var best  = Math.min.apply(null, results);
+    var worst = Math.max.apply(null, results);
+    statAvg.textContent   = avg   + " ms";
+    statBest.textContent  = best  + " ms";
+    statWorst.textContent = worst + " ms";
+
+    // 色分け
+    statAvg.className = "stat-value " + (avg < 150 ? "good" : avg < 220 ? "ok" : "slow");
+
+    // 履歴バー
+    var maxMs = 400;
+    var barsEl = document.getElementById("historyBars");
+    barsEl.innerHTML = results.map(function(ms, i) {
+      var pct   = Math.min(100, (ms / maxMs) * 100);
+      var color = ms < 150 ? "var(--success)" : ms < 220 ? "var(--warning)" : "var(--accent)";
+      return '<div class="history-bar-row">' +
+        '<span class="history-bar-num">' + (i+1) + '</span>' +
+        '<div class="history-bar-wrap"><div class="history-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+        '<span class="history-bar-val" style="color:' + color + '">' + ms + ' ms</span>' +
+        '</div>';
+    }).join('');
+    document.getElementById("historySection").style.display = "block";
+  }
+
+  function getGrade(avg) {
+    if (avg < 120) return { letter: "S", cls: "grade-s", desc: "超人的な反応速度！", detail: "プロゲーマーのトップ層に匹敵する反応速度です。FPS競技シーンでも通用するレベルです。" };
+    if (avg < 150) return { letter: "A", cls: "grade-a", desc: "プロレベルの反応速度！", detail: "プロゲーマーの平均（約150ms）を上回っています。非常に優秀な反応速度です。" };
+    if (avg < 200) return { letter: "B", cls: "grade-b", desc: "平均以上の反応速度", detail: "一般的なゲーマーより速い反応速度です。練習を続ければさらに向上できます。" };
+    if (avg < 250) return { letter: "C", cls: "grade-c", desc: "平均的な反応速度", detail: "人間の平均的な反応速度（約250ms）に近いです。ウォームアップで改善できます。" };
+    return { letter: "D", cls: "grade-d", desc: "改善の余地あり", detail: "疲労や環境の影響を受けている可能性があります。休憩後に再挑戦してみましょう。" };
+  }
+
+  function showGrade() {
+    var avg = Math.round(results.reduce(function(s,v){return s+v;},0) / results.length);
+    var g   = getGrade(avg);
+    var gradeSection = document.getElementById("gradeSection");
+    var gradeLetter  = document.getElementById("gradeLetter");
+    var gradeDesc    = document.getElementById("gradeDesc");
+    var gradeDetail  = document.getElementById("gradeDetail");
+    gradeLetter.textContent = g.letter;
+    gradeLetter.className   = "grade-letter " + g.cls;
+    gradeDesc.textContent   = g.desc;
+    gradeDetail.textContent = g.detail;
+    gradeSection.style.display = "block";
+    gradeSection.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function startReady() {
+    setState("ready");
+    var delay = 1500 + Math.random() * 3000; // 1.5〜4.5秒のランダム待機
+    timeoutId = setTimeout(function() {
+      setState("go");
+      startTime = performance.now();
+    }, delay);
+  }
+
+  area.addEventListener("click", function() {
+    if (state === "wait") {
+      startReady();
+    } else if (state === "ready") {
+      // 早押し
+      clearTimeout(timeoutId);
+      setState("toosoon");
+    } else if (state === "toosoon") {
+      startReady();
+    } else if (state === "go") {
+      var elapsed = Math.round(performance.now() - startTime);
+      results.push(elapsed);
+      updateStats();
+
+      // 結果表示
+      iconEl.textContent   = "✅";
+      mainText.innerHTML   = '<span class="reaction-time-big">' + elapsed + '<span class="reaction-time-unit"> ms</span></span>';
+      subText.textContent  = results.length < MAX_TRIALS ? "クリックして続ける" : "完了！";
+      area.className = "reaction-area state-result";
+      state = "result";
+
+      if (results.length >= MAX_TRIALS) {
+        subText.textContent = "テスト完了！";
+        showGrade();
+      }
+    } else if (state === "result") {
+      if (results.length < MAX_TRIALS) {
+        startReady();
+      }
+    }
+  });
+
+  // キーボード対応（スペースキー）
+  area.addEventListener("keydown", function(e) {
+    if (e.code === "Space" || e.code === "Enter") {
+      e.preventDefault();
+      area.click();
+    }
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function() {
+    clearTimeout(timeoutId);
+    results = [];
+    setState("wait");
+    updateStats();
+    document.getElementById("historySection").style.display = "none";
+    document.getElementById("gradeSection").style.display   = "none";
+    trialLbl.textContent = "試行: 0 / " + MAX_TRIALS;
+  });
+
+  updateStats();
+})();
+</script>
+</body>
+</html>
+

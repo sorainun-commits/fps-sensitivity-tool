@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ゲーミングモニター比較 | SensConverter</title>
+  <meta name="description" content="FPS向けゲーミングモニター比較ツール。144Hz・240Hz・360Hzのモニターをパネル種類・価格帯でフィルタリングして比較できます。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="kda.html"         class="nav-link">KDA計算</a>
+      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link active">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+  </nav>
+</header>
+
+<main class="page-main">
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+
+  <section class="card fade-in">
+    <h1 class="section-title" data-ja="🖥️ ゲーミングモニター比較" data-en="🖥️ Gaming Monitor Comparison">🖥️ ゲーミングモニター比較</h1>
+    <p class="section-desc" data-ja="FPS向けゲーミングモニターを比較。Hz・パネル・価格帯でフィルタリングできます。" data-en="Compare FPS gaming monitors. Filter by Hz, panel type, and price range.">FPS向けゲーミングモニターを比較。Hz・パネル・価格帯でフィルタリングできます。</p>
+
+    <div class="filter-bar">
+      <div class="filter-group" id="hzFilter">
+        <button class="filter-btn active" data-hz="all" data-ja="すべてのHz" data-en="All Hz">すべてのHz</button>
+        <button class="filter-btn" data-hz="144">144Hz</button>
+        <button class="filter-btn" data-hz="240">240Hz</button>
+        <button class="filter-btn" data-hz="360">360Hz</button>
+      </div>
+      <div class="filter-group" id="panelFilter">
+        <button class="filter-btn active" data-panel="all" data-ja="すべてのパネル" data-en="All Panels">すべてのパネル</button>
+        <button class="filter-btn" data-panel="IPS">IPS</button>
+        <button class="filter-btn" data-panel="TN">TN</button>
+        <button class="filter-btn" data-panel="VA">VA</button>
+      </div>
+      <div class="filter-group" id="priceFilter">
+        <button class="filter-btn active" data-price="all" data-ja="すべての価格" data-en="All Prices">すべての価格</button>
+        <button class="filter-btn" data-price="low" data-ja="〜3万円" data-en="~¥30k">〜3万円</button>
+        <button class="filter-btn" data-price="mid" data-ja="3〜6万円" data-en="¥30k–60k">3〜6万円</button>
+        <button class="filter-btn" data-price="high" data-ja="6万円〜" data-en="¥60k+">6万円〜</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table id="monitorTable">
+        <thead>
+          <tr>
+            <th data-ja="製品名" data-en="Product">製品名</th>
+            <th data-ja="解像度" data-en="Resolution">解像度</th>
+            <th>Hz</th>
+            <th data-ja="応答速度" data-en="Response">応答速度</th>
+            <th data-ja="パネル" data-en="Panel">パネル</th>
+            <th data-ja="価格帯" data-en="Price">価格帯</th>
+            <th data-ja="FPSおすすめ度" data-en="FPS Score">FPSおすすめ度</th>
+          </tr>
+        </thead>
+        <tbody id="monitorBody"></tbody>
+      </table>
+    </div>
+    <p style="font-size:0.75rem;color:var(--text-dim);margin-top:12px;" data-ja="※ 価格は参考値です。実際の価格は販売店でご確認ください。FPSおすすめ度はHz・応答速度・パネル種類を総合評価したスコアです。" data-en="※ Prices are approximate. Check retailers for current pricing. FPS Score is a composite rating based on Hz, response time, and panel type.">※ 価格は参考値です。実際の価格は販売店でご確認ください。FPSおすすめ度はHz・応答速度・パネル種類を総合評価したスコアです。</p>
+  </section>
+
+  <div class="ad-space" style="margin-top:32px;">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="../contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+  var MONITORS = [
+    { name:"ASUS ROG Swift Pro PG248QP",  res:"1920x1080", hz:540, resp:"0.2ms", panel:"TN",  price:"high", priceLabel:"約8万円",  score:98 },
+    { name:"BenQ ZOWIE XL2566K",          res:"1920x1080", hz:360, resp:"0.5ms", panel:"TN",  price:"high", priceLabel:"約7万円",  score:96 },
+    { name:"ASUS ROG Swift 360Hz PG259QN",res:"1920x1080", hz:360, resp:"1ms",   panel:"IPS", price:"high", priceLabel:"約7万円",  score:95 },
+    { name:"Alienware AW2524H",           res:"1920x1080", hz:360, resp:"0.5ms", panel:"IPS", price:"high", priceLabel:"約8万円",  score:95 },
+    { name:"LG 27GP850-B",                res:"2560x1440", hz:180, resp:"1ms",   panel:"IPS", price:"mid",  priceLabel:"約4万円",  score:88 },
+    { name:"ASUS TUF Gaming VG259QM",     res:"1920x1080", hz:280, resp:"1ms",   panel:"IPS", price:"mid",  priceLabel:"約4万円",  score:90 },
+    { name:"MSI Optix MAG274QRF-QD",      res:"2560x1440", hz:165, resp:"1ms",   panel:"IPS", price:"mid",  priceLabel:"約5万円",  score:85 },
+    { name:"BenQ ZOWIE XL2411K",          res:"1920x1080", hz:144, resp:"1ms",   panel:"TN",  price:"low",  priceLabel:"約2万円",  score:78 },
+    { name:"AOC 24G2SP",                  res:"1920x1080", hz:165, resp:"1ms",   panel:"IPS", price:"low",  priceLabel:"約2万円",  score:80 },
+    { name:"Pixio PX248 Prime",           res:"1920x1080", hz:144, resp:"1ms",   panel:"IPS", price:"low",  priceLabel:"約1.5万円",score:76 },
+    { name:"Samsung Odyssey G4",          res:"1920x1080", hz:240, resp:"1ms",   panel:"IPS", price:"mid",  priceLabel:"約3.5万円",score:89 },
+    { name:"ViewSonic XG2431",            res:"1920x1080", hz:240, resp:"0.5ms", panel:"IPS", price:"mid",  priceLabel:"約4万円",  score:91 }
+  ];
+
+  var currentHz    = "all";
+  var currentPanel = "all";
+  var currentPrice = "all";
+
+  function renderTable() {
+    var filtered = MONITORS.filter(function(m) {
+      var hzMatch    = currentHz    === "all" || m.hz >= parseInt(currentHz);
+      var panelMatch = currentPanel === "all" || m.panel === currentPanel;
+      var priceMatch = currentPrice === "all" || m.price === currentPrice;
+      return hzMatch && panelMatch && priceMatch;
+    });
+    filtered.sort(function(a, b) { return b.score - a.score; });
+
+    var tbody = document.getElementById("monitorBody");
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:24px;">該当するモニターが見つかりませんでした。</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(function(m) {
+      var pct = m.score;
+      var scoreColor = m.score >= 90 ? "var(--accent)" : m.score >= 80 ? "var(--warning)" : "var(--text-muted)";
+      return '<tr>' +
+        '<td class="td-name">' + m.name + '</td>' +
+        '<td>' + m.res + '</td>' +
+        '<td><span class="badge badge-' + (m.hz >= 360 ? 'red' : m.hz >= 240 ? 'purple' : 'gray') + '">' + m.hz + 'Hz</span></td>' +
+        '<td>' + m.resp + '</td>' +
+        '<td><span class="badge badge-' + (m.panel === 'IPS' ? 'green' : m.panel === 'TN' ? 'orange' : 'gray') + '">' + m.panel + '</span></td>' +
+        '<td>' + m.priceLabel + '</td>' +
+        '<td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:' + pct + '%"></div></div><span class="score-val" style="color:' + scoreColor + '">' + pct + '</span></div></td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  function makeFilterHandler(filterGroup, key, setter) {
+    document.getElementById(filterGroup).addEventListener("click", function(e) {
+      var btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      document.querySelectorAll("#" + filterGroup + " .filter-btn").forEach(function(b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      setter(btn.dataset[key]);
+      renderTable();
+    });
+  }
+
+  makeFilterHandler("hzFilter",    "hz",    function(v) { currentHz    = v; });
+  makeFilterHandler("panelFilter", "panel", function(v) { currentPanel = v; });
+  makeFilterHandler("priceFilter", "price", function(v) { currentPrice = v; });
+
+  renderTable();
+})();
+</script>
+</body>
+</html>
+

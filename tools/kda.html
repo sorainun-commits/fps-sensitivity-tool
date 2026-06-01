@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KDA計算機 | SensConverter</title>
+  <meta name="description" content="FPS向けKDA・KDレシオ計算機。複数試合の平均KDAも計算でき、試合履歴をブラウザに自動保存します。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="kda.html"         class="nav-link active">KDA計算</a>
+      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+  </nav>
+</header>
+
+<main class="page-main-narrow">
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h1 class="section-title" data-ja="💀 KDA計算機" data-en="💀 KDA Calculator">💀 KDA計算機</h1>
+    <p class="section-desc" data-ja="KDA = (キル + アシスト) ÷ デス。デスが0の場合はキル+アシストをそのまま表示します。" data-en="KDA = (Kills + Assists) ÷ Deaths. If deaths = 0, shows Kills + Assists directly.">KDA = (キル + アシスト) ÷ デス。デスが0の場合はキル+アシストをそのまま表示します。</p>
+
+    <div class="form-grid-3" style="margin-bottom:20px;">
+      <div class="form-group">
+        <label class="form-label" for="kills" data-ja="キル数" data-en="Kills">キル数</label>
+        <input type="number" id="kills" placeholder="0" min="0" step="1" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="deaths" data-ja="デス数" data-en="Deaths">デス数</label>
+        <input type="number" id="deaths" placeholder="0" min="0" step="1" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="assists" data-ja="アシスト数" data-en="Assists">アシスト数</label>
+        <input type="number" id="assists" placeholder="0" min="0" step="1" />
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button id="kdaCalcBtn" class="btn btn-primary" style="flex:2;" data-ja="計算する" data-en="Calculate">計算する</button>
+      <button id="kdaSaveBtn" class="btn btn-outline" style="flex:1;" data-ja="履歴に追加" data-en="Add to History">履歴に追加</button>
+    </div>
+  </section>
+
+  <section class="card fade-in" id="kdaResult" style="display:none; margin-bottom:24px;">
+    <h2 class="section-title" data-ja="計算結果" data-en="Result">計算結果</h2>
+    <div class="kda-result-grid">
+      <div class="kda-box">
+        <span class="kda-box-label">KDA</span>
+        <span class="kda-box-value" id="kdaValue">—</span>
+      </div>
+      <div class="kda-box">
+        <span class="kda-box-label">K/D</span>
+        <span class="kda-box-value" id="kdValue">—</span>
+      </div>
+      <div class="kda-box">
+        <span class="kda-box-label" data-ja="評価" data-en="Grade">評価</span>
+        <span class="kda-box-value" id="kdaGradeSmall" style="font-size:1.5rem;">—</span>
+      </div>
+    </div>
+    <div class="kda-grade" id="kdaGrade">—</div>
+    <div id="kdaGradeDesc" style="text-align:center;color:var(--text-muted);font-size:0.88rem;"></div>
+  </section>
+
+  <section class="card fade-in" id="kdaHistorySection" style="margin-bottom:24px;">
+    <h2 class="section-title" data-ja="📊 試合履歴" data-en="📊 Match History">📊 試合履歴</h2>
+    <p class="section-desc" data-ja="ブラウザに自動保存されます。" data-en="Automatically saved in your browser.">ブラウザに自動保存されます。</p>
+    <div id="kdaAvgRow" style="display:none;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-weight:700;color:var(--text-muted);font-size:0.85rem;" data-ja="平均KDA" data-en="Average KDA">平均KDA</span>
+      <span id="kdaAvgValue" style="font-weight:900;color:var(--accent2);font-size:1.4rem;">—</span>
+    </div>
+    <div id="kdaHistory"></div>
+    <button id="kdaClearBtn" class="btn btn-ghost btn-sm" style="margin-top:12px;" data-ja="履歴をクリア" data-en="Clear History">履歴をクリア</button>
+  </section>
+
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="../contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem("kdaHistory") || "[]"); } catch(e) { return []; }
+  }
+  function saveHistory(h) { localStorage.setItem("kdaHistory", JSON.stringify(h)); }
+
+  function getGrade(kda) {
+    if (kda >= 3.0) return { grade: "S", cls: "grade-s", desc: "圧倒的なパフォーマンス。プロレベルの戦績です。" };
+    if (kda >= 2.0) return { grade: "A", cls: "grade-a", desc: "優秀な戦績。チームへの貢献度が高いです。" };
+    if (kda >= 1.5) return { grade: "B", cls: "grade-b", desc: "平均以上の戦績。安定したプレイができています。" };
+    if (kda >= 1.0) return { grade: "C", cls: "grade-c", desc: "平均的な戦績。デスを減らすことを意識しましょう。" };
+    return { grade: "D", cls: "grade-d", desc: "改善の余地あり。ポジショニングを見直してみましょう。" };
+  }
+
+  function calcKDA(k, d, a) {
+    var kda = d === 0 ? (k + a) : (k + a) / d;
+    var kd  = d === 0 ? k : k / d;
+    return { kda: kda, kd: kd };
+  }
+
+  function renderHistory() {
+    var history = loadHistory();
+    var el = document.getElementById("kdaHistory");
+    var avgRow = document.getElementById("kdaAvgRow");
+    if (history.length === 0) {
+      el.innerHTML = '<p style="color:var(--text-dim);font-size:0.88rem;text-align:center;padding:16px;">履歴がありません。「履歴に追加」で記録できます。</p>';
+      avgRow.style.display = "none";
+      return;
+    }
+    avgRow.style.display = "flex";
+    var totalKda = history.reduce(function(s, m) { return s + m.kda; }, 0);
+    document.getElementById("kdaAvgValue").textContent = (totalKda / history.length).toFixed(2);
+
+    el.innerHTML = history.map(function(m, i) {
+      var g = getGrade(m.kda);
+      return '<div class="match-row">' +
+        '<span style="color:var(--text-muted);font-size:0.78rem;">#' + (history.length - i) + '</span>' +
+        '<span>' + m.k + '/' + m.d + '/' + m.a + '</span>' +
+        '<span class="match-row-kda">KDA ' + m.kda.toFixed(2) + '</span>' +
+        '<span class="badge badge-' + (g.grade === 'S' ? 'orange' : g.grade === 'A' ? 'red' : g.grade === 'B' ? 'purple' : 'gray') + '">' + g.grade + '</span>' +
+        '<span style="color:var(--text-dim);font-size:0.75rem;">' + m.date + '</span>' +
+        '<button class="match-row-del" data-index="' + i + '">✕</button>' +
+        '</div>';
+    }).join('');
+
+    el.querySelectorAll(".match-row-del").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        var h = loadHistory(); h.splice(parseInt(this.dataset.index), 1); saveHistory(h); renderHistory();
+      });
+    });
+  }
+
+  var lastResult = null;
+
+  document.getElementById("kdaCalcBtn").addEventListener("click", function() {
+    var k = parseInt(document.getElementById("kills").value)   || 0;
+    var d = parseInt(document.getElementById("deaths").value)  || 0;
+    var a = parseInt(document.getElementById("assists").value) || 0;
+    var r = calcKDA(k, d, a);
+    var g = getGrade(r.kda);
+    lastResult = { k: k, d: d, a: a, kda: r.kda, kd: r.kd };
+
+    document.getElementById("kdaValue").textContent = r.kda.toFixed(2);
+    document.getElementById("kdValue").textContent  = r.kd.toFixed(2);
+    document.getElementById("kdaGradeSmall").textContent = g.grade;
+    var gradeEl = document.getElementById("kdaGrade");
+    gradeEl.textContent = g.grade;
+    gradeEl.className = "kda-grade " + g.cls;
+    document.getElementById("kdaGradeDesc").textContent = g.desc;
+    document.getElementById("kdaResult").style.display = "block";
+    document.getElementById("kdaResult").scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.getElementById("kdaSaveBtn").addEventListener("click", function() {
+    if (!lastResult) { alert("先に計算を実行してください。"); return; }
+    var h = loadHistory();
+    var now = new Date();
+    h.unshift({
+      k: lastResult.k, d: lastResult.d, a: lastResult.a,
+      kda: lastResult.kda, kd: lastResult.kd,
+      date: now.getMonth()+1 + "/" + now.getDate() + " " + now.getHours() + ":" + ("0"+now.getMinutes()).slice(-2)
+    });
+    saveHistory(h); renderHistory();
+  });
+
+  document.getElementById("kdaClearBtn").addEventListener("click", function() {
+    if (confirm("履歴をすべて削除しますか？")) { saveHistory([]); renderHistory(); }
+  });
+
+  renderHistory();
+})();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>お問い合わせ | SensConverter</title>
+  <meta name="description" content="SensConverter（FPS感度変換ツール）へのお問い合わせページです。バグ報告・ゲーム追加リクエストなどお気軽にどうぞ。" />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="tools/sensitivity.html" class="nav-link">感度変換</a>
+      <a href="tools/edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="tools/kda.html"         class="nav-link">KDA計算</a>
+      <a href="tools/timer.html"       class="nav-link">タイマー</a>
+      <a href="tools/pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="tools/monitor.html"     class="nav-link">モニター比較</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="tools/sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="tools/edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="tools/kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="tools/timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="tools/pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="tools/monitor.html"     class="nav-link">🖥️ モニター比較</a>
+  </nav>
+</header>
+
+<main class="page-main-narrow">
+  <section class="card fade-in">
+    <h1 class="section-title" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</h1>
+    <div class="policy-body">
+      <p data-ja="バグの報告・ご要望・対応ゲームの追加リクエストなどはこちらからお送りください。" data-en="Please use this form for bug reports, feature requests, or game addition requests.">バグの報告・ご要望・対応ゲームの追加リクエストなどはこちらからお送りください。</p>
+      <form class="contact-form" action="https://formspree.io/f/xaqkznby" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="contactName" data-ja="お名前" data-en="Name">お名前</label>
+          <input type="text" id="contactName" name="name" placeholder="例: 田中太郎" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contactEmail" data-ja="メールアドレス" data-en="Email">メールアドレス</label>
+          <input type="email" id="contactEmail" name="email" placeholder="例: example@email.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contactMsg" data-ja="メッセージ" data-en="Message">メッセージ</label>
+          <textarea id="contactMsg" name="message" rows="6" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" data-ja="送信する" data-en="Send">送信する</button>
+      </form>
+      <p class="policy-date" style="margin-top:16px;" data-ja="※ フォームはFormspreeを利用しています。" data-en="※ This form uses Formspree.">※ フォームはFormspreeを利用しています。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+

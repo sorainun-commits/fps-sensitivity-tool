@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>エイム練習タイマー | SensConverter</title>
+  <meta name="description" content="FPS向けエイム練習タイマー。15〜60分のプリセット付きカウントダウン。練習ログで今日の練習時間を記録できます。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="stylesheet" href="../style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="kda.html"         class="nav-link">KDA計算</a>
+      <a href="timer.html"       class="nav-link active">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+  </nav>
+</header>
+
+<main class="page-main-narrow">
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h1 class="section-title" data-ja="⏱️ エイム練習タイマー" data-en="⏱️ Aim Practice Timer">⏱️ エイム練習タイマー</h1>
+
+    <!-- タイマー表示 -->
+    <div class="timer-display">
+      <div class="timer-time" id="timerDisplay">00:00</div>
+      <div class="timer-status" id="timerStatus" data-ja="待機中" data-en="Ready">待機中</div>
+    </div>
+
+    <!-- プリセット -->
+    <div class="timer-presets">
+      <button class="preset-btn" data-min="15">15分</button>
+      <button class="preset-btn" data-min="30">30分</button>
+      <button class="preset-btn" data-min="45">45分</button>
+      <button class="preset-btn" data-min="60">60分</button>
+    </div>
+
+    <!-- カスタム時間 -->
+    <div class="form-grid-2" style="margin-bottom:20px;">
+      <div class="form-group">
+        <label class="form-label" for="customMin" data-ja="カスタム時間（分）" data-en="Custom Time (min)">カスタム時間（分）</label>
+        <input type="number" id="customMin" placeholder="例: 20" min="1" max="180" step="1" />
+      </div>
+      <div class="form-group" style="justify-content:flex-end;">
+        <label class="form-label" style="opacity:0;">set</label>
+        <button id="customSetBtn" class="btn btn-ghost" data-ja="セット" data-en="Set">セット</button>
+      </div>
+    </div>
+
+    <!-- コントロール -->
+    <div class="timer-controls">
+      <button id="timerStartBtn" class="btn btn-primary" style="flex:2;" data-ja="▶ 開始" data-en="▶ Start">▶ 開始</button>
+      <button id="timerPauseBtn" class="btn btn-outline" style="flex:1;" disabled data-ja="⏸ 一時停止" data-en="⏸ Pause">⏸ 一時停止</button>
+      <button id="timerResetBtn" class="btn btn-ghost" style="flex:1;" data-ja="↺ リセット" data-en="↺ Reset">↺ リセット</button>
+    </div>
+  </section>
+
+  <!-- 練習ログ -->
+  <section class="card fade-in" style="margin-bottom:24px;">
+    <h2 class="section-title" data-ja="📅 練習ログ" data-en="📅 Practice Log">📅 練習ログ</h2>
+    <p class="section-desc" data-ja="今日の練習時間を記録します。タイマー完了時に自動保存されます。" data-en="Records today's practice time. Auto-saved when the timer completes.">今日の練習時間を記録します。タイマー完了時に自動保存されます。</p>
+    <div class="timer-log-today">
+      <span id="todayMinutes">0</span><span data-ja=" 分 練習済み" data-en=" min practiced"> 分 練習済み</span>
+    </div>
+    <div style="margin-top:16px;" id="logList"></div>
+    <button id="clearLogBtn" class="btn btn-ghost btn-sm" style="margin-top:12px;" data-ja="ログをクリア" data-en="Clear Log">ログをクリア</button>
+  </section>
+
+  <div class="ad-space">
+    <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+    <!-- Google AdSense
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="../contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+  var totalSeconds = 0;
+  var remainSeconds = 0;
+  var intervalId = null;
+  var isRunning = false;
+  var selectedMinutes = 0;
+
+  var displayEl    = document.getElementById("timerDisplay");
+  var statusEl     = document.getElementById("timerStatus");
+  var startBtn     = document.getElementById("timerStartBtn");
+  var pauseBtn     = document.getElementById("timerPauseBtn");
+  var resetBtn     = document.getElementById("timerResetBtn");
+
+  function pad(n) { return ("0" + n).slice(-2); }
+
+  function updateDisplay() {
+    var m = Math.floor(remainSeconds / 60);
+    var s = remainSeconds % 60;
+    displayEl.textContent = pad(m) + ":" + pad(s);
+    if (remainSeconds <= 30 && remainSeconds > 0 && isRunning) {
+      displayEl.className = "timer-time warning";
+    } else if (isRunning) {
+      displayEl.className = "timer-time running";
+    } else {
+      displayEl.className = "timer-time";
+    }
+  }
+
+  function setTime(minutes) {
+    if (isRunning) return;
+    selectedMinutes = minutes;
+    totalSeconds = minutes * 60;
+    remainSeconds = totalSeconds;
+    updateDisplay();
+    statusEl.textContent = minutes + "分セット";
+    document.querySelectorAll(".preset-btn").forEach(function(b) {
+      b.classList.toggle("active", parseInt(b.dataset.min) === minutes);
+    });
+  }
+
+  function playBeep() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [0, 0.3, 0.6].forEach(function(delay) {
+        var osc  = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 880;
+        osc.type = "sine";
+        gain.gain.setValueAtTime(0.4, ctx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.25);
+        osc.start(ctx.currentTime + delay);
+        osc.stop(ctx.currentTime + delay + 0.3);
+      });
+    } catch(e) {}
+  }
+
+  function loadLog() {
+    try { return JSON.parse(localStorage.getItem("aimTimerLog") || "[]"); } catch(e) { return []; }
+  }
+  function saveLog(log) { localStorage.setItem("aimTimerLog", JSON.stringify(log)); }
+
+  function todayKey() {
+    var d = new Date(); return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+  }
+
+  function renderLog() {
+    var log = loadLog();
+    var today = todayKey();
+    var todayMin = log.filter(function(e) { return e.date === today; }).reduce(function(s, e) { return s + e.minutes; }, 0);
+    document.getElementById("todayMinutes").textContent = todayMin;
+
+    var listEl = document.getElementById("logList");
+    if (log.length === 0) {
+      listEl.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;text-align:center;padding:12px;">ログがありません。</p>';
+      return;
+    }
+    listEl.innerHTML = log.slice(0, 10).map(function(e) {
+      return '<div class="match-row">' +
+        '<span style="color:var(--text-muted);font-size:0.82rem;">' + e.date + '</span>' +
+        '<span style="font-weight:700;color:var(--accent2);">' + e.minutes + '分</span>' +
+        '<span style="color:var(--text-dim);font-size:0.78rem;">' + e.time + '</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  function addLog(minutes) {
+    var log = loadLog();
+    var now = new Date();
+    log.unshift({
+      date: todayKey(),
+      minutes: minutes,
+      time: now.getHours() + ":" + pad(now.getMinutes())
+    });
+    saveLog(log.slice(0, 50));
+    renderLog();
+  }
+
+  startBtn.addEventListener("click", function() {
+    if (totalSeconds === 0) { alert("時間をセットしてください。"); return; }
+    if (isRunning) return;
+    isRunning = true;
+    startBtn.disabled = true;
+    pauseBtn.disabled = false;
+    statusEl.textContent = "練習中...";
+    displayEl.className = "timer-time running";
+
+    intervalId = setInterval(function() {
+      remainSeconds--;
+      updateDisplay();
+      if (remainSeconds <= 0) {
+        clearInterval(intervalId);
+        isRunning = false;
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        displayEl.className = "timer-time";
+        statusEl.textContent = "完了！";
+        playBeep();
+        addLog(selectedMinutes);
+        remainSeconds = 0;
+      }
+    }, 1000);
+  });
+
+  pauseBtn.addEventListener("click", function() {
+    if (!isRunning) return;
+    clearInterval(intervalId);
+    isRunning = false;
+    startBtn.disabled = false;
+    pauseBtn.disabled = true;
+    statusEl.textContent = "一時停止中";
+    displayEl.className = "timer-time";
+  });
+
+  resetBtn.addEventListener("click", function() {
+    clearInterval(intervalId);
+    isRunning = false;
+    remainSeconds = totalSeconds;
+    startBtn.disabled = false;
+    pauseBtn.disabled = true;
+    statusEl.textContent = "待機中";
+    displayEl.className = "timer-time";
+    updateDisplay();
+  });
+
+  document.querySelectorAll(".preset-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() { setTime(parseInt(this.dataset.min)); });
+  });
+
+  document.getElementById("customSetBtn").addEventListener("click", function() {
+    var m = parseInt(document.getElementById("customMin").value);
+    if (!m || m < 1 || m > 180) { alert("1〜180分で入力してください。"); return; }
+    document.querySelectorAll(".preset-btn").forEach(function(b) { b.classList.remove("active"); });
+    setTime(m);
+  });
+
+  document.getElementById("clearLogBtn").addEventListener("click", function() {
+    if (confirm("練習ログをすべて削除しますか？")) { saveLog([]); renderLog(); }
+  });
+
+  setTime(15);
+  renderLog();
+})();
+</script>
+</body>
+</html>
+

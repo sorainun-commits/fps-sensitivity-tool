@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SensConverter — FPS感度変換・eDPI・クロスヘア・反応速度テスト | 無料ツール集</title>
+  <meta name="description" content="Valorant・Apex・CS2など25ゲーム対応の感度変換、eDPI計算、クロスヘアジェネレーター、反応速度テスト、プロ設定DB。FPSプレイヤーに必要なツールが全部揃う無料サイト。" />
+  <meta name="keywords" content="FPS感度変換,eDPI計算,クロスヘア,反応速度テスト,プロ設定,Valorant感度,Apex感度,CS2感度,Windows感度,マウス感度" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sensconverter.vercel.app" />
+  <meta property="og:title" content="SensConverter — FPSプレイヤーのための全部入りツール" />
+  <meta property="og:description" content="感度変換・eDPI・KDA・タイマー・プロ設定DB・モニター比較。FPSに必要なツールが全部揃う。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sensconverter.vercel.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"SensConverter","url":"https://sensconverter.vercel.app","description":"FPSプレイヤーのための全部入りツールサイト"}
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="tools/sensitivity.html" class="nav-link">感度変換</a>
+      <a href="tools/edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="tools/kda.html"         class="nav-link">KDA計算</a>
+      <a href="tools/timer.html"       class="nav-link">タイマー</a>
+      <a href="tools/pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="tools/monitor.html"     class="nav-link">モニター比較</a>
+      <a href="tools/polling.html"     class="nav-link">ポーリング</a>
+      <a href="tools/fov.html"         class="nav-link">FOV計算</a>
+      <a href="tools/reaction.html"    class="nav-link">反応速度</a>
+      <a href="tools/crosshair.html"  class="nav-link">クロスヘア</a>
+      <a href="tools/winsens.html"    class="nav-link">Windows感度</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-lang" id="langBtn" aria-label="言語切り替え">EN</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="tools/sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="tools/edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="tools/kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="tools/timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="tools/pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="tools/monitor.html"     class="nav-link">🖥️ モニター比較</a>
+    <a href="tools/polling.html"     class="nav-link">🖱️ ポーリングレート</a>
+    <a href="tools/fov.html"         class="nav-link">📐 FOV計算</a>
+    <a href="tools/reaction.html"    class="nav-link">⚡ 反応速度テスト</a>
+    <a href="tools/crosshair.html"  class="nav-link">✛ クロスヘア</a>
+    <a href="tools/winsens.html"    class="nav-link">🪟 Windows感度</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ヒーロー -->
+  <section class="hero fade-in">
+    <p class="hero-eyebrow" data-ja="FPS専門ツールサイト" data-en="FPS Specialist Tools">FPS専門ツールサイト</p>
+    <h1 class="hero-title" data-ja="FPSプレイヤーのための全部入りツール" data-en="All-in-One Tools for FPS Players">FPSプレイヤーのための<span>全部入りツール</span></h1>
+    <p class="hero-sub" data-ja="感度変換からプロ設定まで、勝つために必要なツールが全部揃ってる。" data-en="From sensitivity conversion to pro settings — everything you need to win.">感度変換からプロ設定まで、勝つために必要なツールが全部揃ってる。</p>
+  </section>
+
+  <div class="page-main">
+    <!-- AdSense 上 -->
+    <div class="ad-space">
+      <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+      <!-- Google AdSense
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
+
+    <!-- ツールカードグリッド -->
+    <div class="tools-grid">
+      <a href="tools/sensitivity.html" class="tool-card fade-in fade-in-delay-1">
+        <div class="tool-card-icon">🎯</div>
+        <div class="tool-card-title" data-ja="感度変換" data-en="Sensitivity Converter">感度変換</div>
+        <div class="tool-card-desc" data-ja="Valorant・Apex・CS2・OW2・Fortniteなど7ゲーム対応。cm/360逆引き・プロ比較付き。" data-en="Convert sensitivity across 7 games. Includes cm/360 reverse lookup and pro comparison.">Valorant・Apex・CS2・OW2・Fortniteなど7ゲーム対応。cm/360逆引き・プロ比較付き。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/edpi.html" class="tool-card fade-in fade-in-delay-2">
+        <div class="tool-card-icon">⚡</div>
+        <div class="tool-card-title" data-ja="eDPI計算機" data-en="eDPI Calculator">eDPI計算機</div>
+        <div class="tool-card-desc" data-ja="実効DPIを計算してプロ選手と比較。自分の感度が高いか低いか一目でわかる。" data-en="Calculate your effective DPI and compare with pros. See instantly if your sensitivity is high or low.">実効DPIを計算してプロ選手と比較。自分の感度が高いか低いか一目でわかる。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/kda.html" class="tool-card fade-in fade-in-delay-3">
+        <div class="tool-card-icon">💀</div>
+        <div class="tool-card-title" data-ja="KDA計算機" data-en="KDA Calculator">KDA計算機</div>
+        <div class="tool-card-desc" data-ja="KDA比率・KDレシオを計算。複数試合の平均も出せる。試合履歴を自動保存。" data-en="Calculate KDA ratio and K/D. Average multiple matches. Auto-saves match history.">KDA比率・KDレシオを計算。複数試合の平均も出せる。試合履歴を自動保存。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/timer.html" class="tool-card fade-in fade-in-delay-4">
+        <div class="tool-card-icon">⏱️</div>
+        <div class="tool-card-title" data-ja="エイム練習タイマー" data-en="Aim Practice Timer">エイム練習タイマー</div>
+        <div class="tool-card-desc" data-ja="15〜60分のプリセット付きカウントダウン。練習ログで今日の練習時間を記録。" data-en="Countdown timer with 15–60 min presets. Track today's practice time with session logs.">15〜60分のプリセット付きカウントダウン。練習ログで今日の練習時間を記録。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/pros.html" class="tool-card fade-in fade-in-delay-5">
+        <div class="tool-card-icon">🏆</div>
+        <div class="tool-card-title" data-ja="プロ設定DB" data-en="Pro Settings DB">プロ設定DB</div>
+        <div class="tool-card-desc" data-ja="Valorant・CS2・Apex・OW2・Fortniteのプロ20名以上の感度・DPI・解像度データ。" data-en="Sensitivity, DPI, and resolution data for 20+ pros across Valorant, CS2, Apex, OW2, and Fortnite.">Valorant・CS2・Apex・OW2・Fortniteのプロ20名以上の感度・DPI・解像度データ。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/monitor.html" class="tool-card fade-in fade-in-delay-6">
+        <div class="tool-card-icon">🖥️</div>
+        <div class="tool-card-title" data-ja="モニター比較" data-en="Monitor Comparison">モニター比較</div>
+        <div class="tool-card-desc" data-ja="主要ゲーミングモニター10機種以上を比較。Hz・パネル・価格帯でフィルタリング。" data-en="Compare 10+ gaming monitors. Filter by Hz, panel type, and price range.">主要ゲーミングモニター10機種以上を比較。Hz・パネル・価格帯でフィルタリング。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/polling.html" class="tool-card fade-in fade-in-delay-1">
+        <div class="tool-card-icon">🖱️</div>
+        <div class="tool-card-title" data-ja="ポーリングレート比較" data-en="Polling Rate Comparison">ポーリングレート比較</div>
+        <div class="tool-card-desc" data-ja="125Hz〜8000Hzのポーリングレートが感度にどう影響するか可視化。最適な設定を確認。" data-en="Visualize how polling rate (125Hz–8000Hz) affects your sensitivity. Find your optimal setting.">125Hz〜8000Hzのポーリングレートが感度にどう影響するか可視化。最適な設定を確認。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/fov.html" class="tool-card fade-in fade-in-delay-2">
+        <div class="tool-card-icon">📐</div>
+        <div class="tool-card-title" data-ja="FOV計算機" data-en="FOV Calculator">FOV計算機</div>
+        <div class="tool-card-desc" data-ja="ゲーム間のFOV（視野角）を換算。水平・垂直・対角線FOVの相互変換も対応。" data-en="Convert FOV between games. Supports horizontal, vertical, and diagonal FOV conversion.">ゲーム間のFOV（視野角）を換算。水平・垂直・対角線FOVの相互変換も対応。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/reaction.html" class="tool-card fade-in fade-in-delay-3">
+        <div class="tool-card-icon">⚡</div>
+        <div class="tool-card-title" data-ja="反応速度テスト" data-en="Reaction Time Test">反応速度テスト</div>
+        <div class="tool-card-desc" data-ja="5回計測して平均・最速・評価を表示。プロゲーマーの平均反応速度と比較できる。" data-en="Measure 5 times to get average, best, and grade. Compare with pro gamer reaction times.">5回計測して平均・最速・評価を表示。プロゲーマーの平均反応速度と比較できる。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/crosshair.html" class="tool-card fade-in fade-in-delay-4">
+        <div class="tool-card-icon">✛</div>
+        <div class="tool-card-title" data-ja="クロスヘアジェネレーター" data-en="Crosshair Generator">クロスヘアジェネレーター</div>
+        <div class="tool-card-desc" data-ja="Valorant・CS2対応。リアルタイムプレビューでカスタマイズしてコードをコピー。プロのプリセット8種収録。" data-en="Valorant & CS2 support. Customize with live preview and copy the code. 8 pro presets included.">Valorant・CS2対応。リアルタイムプレビューでカスタマイズしてコードをコピー。プロのプリセット8種収録。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+      <a href="tools/winsens.html" class="tool-card fade-in fade-in-delay-5">
+        <div class="tool-card-icon">🪟</div>
+        <div class="tool-card-title" data-ja="Windows感度変換" data-en="Windows Sensitivity">Windows感度変換</div>
+        <div class="tool-card-desc" data-ja="Windowsのポインター速度（1〜11）がゲーム感度に与える影響を計算。プロの78%はWindows感度6を使用。" data-en="Calculate how Windows pointer speed (1–11) affects your game sensitivity. 78% of pros use Windows sensitivity 6.">Windowsのポインター速度（1〜11）がゲーム感度に与える影響を計算。プロの78%はWindows感度6を使用。</div>
+        <div class="tool-card-arrow" data-ja="使ってみる →" data-en="Try it →">使ってみる →</div>
+      </a>
+    </div>
+
+    <!-- AdSense 下 -->
+    <div class="ad-space">
+      <span data-ja="広告スペース" data-en="Advertisement">広告スペース</span>
+      <!-- Google AdSense
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter — <span data-ja="プロデータは" data-en="Pro data referenced from">プロデータは</span> <a href="https://prosettings.net" target="_blank" rel="noopener">prosettings.net</a> <span data-ja="を参考に作成" data-en=""></span></p>
+  <div class="footer-links">
+    <a href="privacy.html" data-ja="プライバシーポリシー" data-en="Privacy Policy">プライバシーポリシー</a>
+    <a href="contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
