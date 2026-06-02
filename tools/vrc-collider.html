@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VRC Body Collider — アバター貫通防止ツール | SensConverter</title>
+  <meta name="description" content="VRChatアバターにPhysBone Colliderを自動設定。他アバターとの体貫通を軽減するUnity Editor拡張ツール。ワンクリックで体の全部位にコライダーを配置。" />
+  <link rel="stylesheet" href="../style.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0EF1X7XNYD');
+  </script>
+  <style>
+    /* ページ固有スタイル */
+    .vrc-hero {
+      background: linear-gradient(160deg, #0d0d14 0%, #0e0d20 50%, #0d1420 100%);
+      padding: 72px 24px 56px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .vrc-hero::before {
+      content: '';
+      position: absolute; top: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(0,229,176,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .vrc-hero::after {
+      content: '';
+      position: absolute; bottom: -60px; right: -60px;
+      width: 350px; height: 350px;
+      background: radial-gradient(ellipse, rgba(124,92,252,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .vrc-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent3);
+      text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px;
+      text-shadow: var(--neon-teal);
+    }
+    .vrc-hero-title {
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      font-weight: 900; line-height: 1.15; margin-bottom: 14px;
+      color: var(--text);
+    }
+    .vrc-hero-title span {
+      background: linear-gradient(135deg, var(--accent3), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .vrc-hero-sub {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 520px; margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .download-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: linear-gradient(135deg, var(--accent3), #00b894);
+      color: #0d1a16;
+      font-size: 1.05rem; font-weight: 800;
+      padding: 16px 36px; border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(0,229,176,0.35);
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .download-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,229,176,0.5);
+      text-decoration: none;
+      color: #0d1a16;
+    }
+    .download-btn svg { flex-shrink: 0; }
+    .version-badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(0,229,176,0.1);
+      border: 1px solid rgba(0,229,176,0.3);
+      color: var(--accent3);
+      font-size: 0.78rem; font-weight: 700;
+      padding: 4px 14px; border-radius: 999px;
+    }
+
+    /* ステップガイド */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .step-card:hover {
+      border-color: var(--accent3);
+      box-shadow: 0 0 20px rgba(0,229,176,0.15);
+    }
+    .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent3), #00b894);
+      color: #0d1a16;
+      font-size: 1.1rem; font-weight: 900;
+      border-radius: 50%;
+      margin-bottom: 14px;
+    }
+    .step-title {
+      font-size: 0.95rem; font-weight: 800;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .step-desc {
+      font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;
+    }
+
+    /* 部位リスト */
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .part-item {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.85rem; color: var(--text-muted);
+    }
+    .part-item .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent3);
+      flex-shrink: 0;
+    }
+
+    /* 注意事項 */
+    .notice-box {
+      background: rgba(255,184,0,0.07);
+      border: 1px solid rgba(255,184,0,0.25);
+      border-left: 3px solid var(--warning);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .notice-box strong { color: var(--warning); }
+
+    .info-box {
+      background: rgba(0,229,176,0.06);
+      border: 1px solid rgba(0,229,176,0.2);
+      border-left: 3px solid var(--accent3);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .info-box strong { color: var(--accent3); }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-size: 0.95rem; font-weight: 700;
+      color: var(--text); margin-bottom: 8px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .faq-q::before {
+      content: 'Q';
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; min-width: 22px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff; font-size: 0.72rem; font-weight: 900;
+      border-radius: 50%;
+    }
+    .faq-a {
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.7; padding-left: 32px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="site-logo">🎯 SensConverter</a>
+    <nav class="site-nav" aria-label="メインナビ">
+      <a href="sensitivity.html" class="nav-link">感度変換</a>
+      <a href="edpi.html"        class="nav-link">eDPI計算</a>
+      <a href="kda.html"         class="nav-link">KDA計算</a>
+      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="pros.html"        class="nav-link">プロ設定DB</a>
+      <a href="monitor.html"     class="nav-link">モニター比較</a>
+      <a href="polling.html"     class="nav-link">ポーリング</a>
+      <a href="fov.html"         class="nav-link">FOV計算</a>
+      <a href="reaction.html"    class="nav-link">反応速度</a>
+      <a href="crosshair.html"   class="nav-link">クロスヘア</a>
+      <a href="winsens.html"     class="nav-link">Windows感度</a>
+    </nav>
+    <div class="header-actions">
+      <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
+    <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
+    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
+    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
+    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
+    <a href="polling.html"     class="nav-link">🖱️ ポーリングレート</a>
+    <a href="fov.html"         class="nav-link">📐 FOV計算</a>
+    <a href="reaction.html"    class="nav-link">⚡ 反応速度テスト</a>
+    <a href="crosshair.html"   class="nav-link">✛ クロスヘア</a>
+    <a href="winsens.html"     class="nav-link">🪟 Windows感度</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ヒーロー -->
+  <section class="vrc-hero fade-in">
+    <p class="vrc-eyebrow">VRChat Unity Tool</p>
+    <h1 class="vrc-hero-title">VRC <span>Body Collider</span> Setup</h1>
+    <p class="vrc-hero-sub">
+      アバターにPhysBone Colliderをワンクリックで自動配置。<br>
+      他のアバターと密着しても体が貫通しにくくなります。
+    </p>
+    <a href="../VRC-BodyCollider/Editor/VRCBodyColliderSetup.cs" download="VRCBodyColliderSetup.cs" class="download-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      VRCBodyColliderSetup.cs をダウンロード
+    </a>
+    <br>
+    <span class="version-badge">v1.0.0 — VRChat SDK3 / PhysBone 対応</span>
+  </section>
+
+  <div class="page-main">
+
+    <!-- 使い方ステップ -->
+    <section style="margin-bottom: 48px;">
+      <h2 class="section-title">使い方（4ステップ）</h2>
+      <div class="steps-grid">
+        <div class="step-card fade-in fade-in-delay-1">
+          <div class="step-num">1</div>
+          <div class="step-title">ダウンロード</div>
+          <div class="step-desc">上のボタンから <code style="background:var(--card2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">VRCBodyColliderSetup.cs</code> をダウンロードする</div>
+        </div>
+        <div class="step-card fade-in fade-in-delay-2">
+          <div class="step-num">2</div>
+          <div class="step-title">Unityにインポート</div>
+          <div class="step-desc">アバターのUnityプロジェクトを開き、<code style="background:var(--card2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">Assets/Editor/</code> フォルダにドラッグ＆ドロップ</div>
+        </div>
+        <div class="step-card fade-in fade-in-delay-3">
+          <div class="step-num">3</div>
+          <div class="step-title">ツールを開く</div>
+          <div class="step-desc">Unityメニューの <strong style="color:var(--accent3)">VRC Tools &gt; Body Collider Setup</strong> を開く。アバターを選んでボタンを押すだけ</div>
+        </div>
+        <div class="step-card fade-in fade-in-delay-4">
+          <div class="step-num">4</div>
+          <div class="step-title">アップロード</div>
+          <div class="step-desc">そのままVRChatにアバターをアップロードするだけ。追加設定は不要</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 自動設定される部位 -->
+    <section style="margin-bottom: 48px;">
+      <h2 class="section-title">自動で設定される部位</h2>
+      <p class="section-desc">アバターのHumanoidボーンを自動検出して、各部位に最適なコライダーを配置します。</p>
+      <div class="parts-grid">
+        <div class="part-item"><span class="dot"></span>頭（Sphere）</div>
+        <div class="part-item"><span class="dot"></span>首（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>胸（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>上半身（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>背骨（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>腰（Sphere）</div>
+        <div class="part-item"><span class="dot"></span>左上腕（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>右上腕（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>左前腕（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>右前腕（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>左手（Sphere）</div>
+        <div class="part-item"><span class="dot"></span>右手（Sphere）</div>
+        <div class="part-item"><span class="dot"></span>左太もも（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>右太もも（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>左すね（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>右すね（Capsule）</div>
+      </div>
+    </section>
+
+    <!-- 注意事項 -->
+    <section style="margin-bottom: 48px;">
+      <h2 class="section-title">注意事項</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="notice-box">
+          <strong>⚠️ 相互設定が必要</strong><br>
+          PhysBone Colliderは「相手の髪・スカート・しっぽ等のPhysBoneが自分のコライダーを押しのける」仕組みです。
+          お互いのアバターが対応設定をしていると、より自然な貫通防止になります。
+        </div>
+        <div class="info-box">
+          <strong>✅ 必要なもの</strong><br>
+          Unity 2019.4以降 + VRChat SDK3（VRCSDK3-AVATAR）。SDK未導入の場合、Unity標準コライダーで仮配置されますが、SDKインポート後に再セットアップしてください。
+        </div>
+        <div class="info-box">
+          <strong>✅ Undo対応</strong><br>
+          セットアップはすべてUnityのUndo履歴に記録されます。Ctrl+Zで元に戻せます。ツール内の削除ボタンでまとめて削除することも可能です。
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="margin-bottom: 48px;">
+      <h2 class="section-title">よくある質問</h2>
+      <div class="card">
+        <div class="faq-item">
+          <div class="faq-q">体型が大きい/小さいアバターはどうすればいい？</div>
+          <div class="faq-a">ツール内の「詳細設定」からコライダーサイズの倍率を 0.5〜2.0 で調整できます。標準体型なら倍率1.0のままでOKです。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">VRChatの利用規約に違反しませんか？</div>
+          <div class="faq-a">違反しません。VRChat公式のPhysBone Collider機能を使うUnityエディター拡張です。クライアントの改変は一切行いません。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">既存のPhysBone設定と干渉しますか？</div>
+          <div class="faq-a">既存のPhysBoneコンポーネントには触れず、コライダーオブジェクトを追加するだけです。既存設定を壊すことはありません。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">アップロード後にパフォーマンスに影響はある？</div>
+          <div class="faq-a">PhysBone Colliderはアバターのパフォーマンスランクに影響します。追加するコライダー数によってはランクが下がる場合があります。VRChat公式のパフォーマンスランク表も合わせて確認してください。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">コライダーを削除したい</div>
+          <div class="faq-a">ツールを再度開いて「セットアップしたコライダーを削除」ボタンを押すと、このツールで追加したコライダーをすべて一括削除できます。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 再ダウンロード -->
+    <section style="text-align:center;padding:40px 0;">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">どの端末からでもここからダウンロードできます</p>
+      <a href="../VRC-BodyCollider/Editor/VRCBodyColliderSetup.cs" download="VRCBodyColliderSetup.cs" class="download-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        VRCBodyColliderSetup.cs をダウンロード
+      </a>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 SensConverter</p>
+  <div class="footer-links">
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <a href="../contact.html">お問い合わせ</a>
+  </div>
+</footer>
+
+<script>
+  // ハンバーガーメニュー
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu   = document.getElementById('mobileMenu');
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
+  });
+</script>
+</body>
+</html>
