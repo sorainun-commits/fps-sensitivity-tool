@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VRC Body Collider — アバター貫通防止ツール | SensConverter</title>
-  <meta name="description" content="VRChatアバターにPhysBone Colliderを自動設定。他アバターとの体貫通を軽減するUnity Editor拡張ツール。ワンクリックで体の全部位にコライダーを配置。" />
+  <title>VRC Body Collider  Eアバター貫通防止チE�Eル | SensConverter</title>
+  <meta name="description" content="VRChatアバターにPhysBone Colliderを�E動設定。他アバターとの体貫通を軽減するUnity Editor拡張チE�Eル。ワンクリチE��で体�E全部位にコライダーを�E置、E />
   <link rel="stylesheet" href="../style.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EF1X7XNYD"></script>
   <script>
@@ -14,7 +14,7 @@
     gtag('config', 'G-0EF1X7XNYD');
   </script>
   <style>
-    /* ページ固有スタイル */
+    /* ペ�Eジ固有スタイル */
     .vrc-hero {
       background: linear-gradient(160deg, #0d0d14 0%, #0e0d20 50%, #0d1420 100%);
       padding: 72px 24px 56px;
@@ -87,7 +87,7 @@
       padding: 4px 14px; border-radius: 999px;
     }
 
-    /* ステップガイド */
+    /* スチE��プガイチE*/
     .steps-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -124,7 +124,7 @@
       font-size: 0.83rem; color: var(--text-muted); line-height: 1.6;
     }
 
-    /* 部位リスト */
+    /* 部位リスチE*/
     .parts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -145,7 +145,7 @@
       flex-shrink: 0;
     }
 
-    /* 注意事項 */
+    /* 注意事頁E*/
     .notice-box {
       background: rgba(255,184,0,0.07);
       border: 1px solid rgba(255,184,0,0.25);
@@ -203,13 +203,13 @@
     <a href="../index.html" class="site-logo">🎯 SensConverter</a>
     <nav class="site-nav" aria-label="メインナビ">
       <a href="sensitivity.html" class="nav-link">感度変換</a>
-      <a href="edpi.html"        class="nav-link">eDPI計算</a>
-      <a href="kda.html"         class="nav-link">KDA計算</a>
-      <a href="timer.html"       class="nav-link">タイマー</a>
+      <a href="edpi.html"        class="nav-link">eDPI計箁E/a>
+      <a href="kda.html"         class="nav-link">KDA計箁E/a>
+      <a href="timer.html"       class="nav-link">タイマ�E</a>
       <a href="pros.html"        class="nav-link">プロ設定DB</a>
-      <a href="monitor.html"     class="nav-link">モニター比較</a>
-      <a href="polling.html"     class="nav-link">ポーリング</a>
-      <a href="fov.html"         class="nav-link">FOV計算</a>
+      <a href="monitor.html"     class="nav-link">モニター比輁E/a>
+      <a href="polling.html"     class="nav-link">ポ�Eリング</a>
+      <a href="fov.html"         class="nav-link">FOV計箁E/a>
       <a href="reaction.html"    class="nav-link">反応速度</a>
       <a href="crosshair.html"   class="nav-link">クロスヘア</a>
       <a href="winsens.html"     class="nav-link">Windows感度</a>
@@ -222,150 +222,150 @@
   </div>
   <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルナビ">
     <a href="sensitivity.html" class="nav-link">🎯 感度変換</a>
-    <a href="edpi.html"        class="nav-link">⚡ eDPI計算</a>
-    <a href="kda.html"         class="nav-link">💀 KDA計算</a>
-    <a href="timer.html"       class="nav-link">⏱️ タイマー</a>
+    <a href="edpi.html"        class="nav-link">⚡ eDPI計箁E/a>
+    <a href="kda.html"         class="nav-link">💀 KDA計箁E/a>
+    <a href="timer.html"       class="nav-link">⏱�E�Eタイマ�E</a>
     <a href="pros.html"        class="nav-link">🏆 プロ設定DB</a>
-    <a href="monitor.html"     class="nav-link">🖥️ モニター比較</a>
-    <a href="polling.html"     class="nav-link">🖱️ ポーリングレート</a>
-    <a href="fov.html"         class="nav-link">📐 FOV計算</a>
-    <a href="reaction.html"    class="nav-link">⚡ 反応速度テスト</a>
-    <a href="crosshair.html"   class="nav-link">✛ クロスヘア</a>
-    <a href="winsens.html"     class="nav-link">🪟 Windows感度</a>
+    <a href="monitor.html"     class="nav-link">🖥�E�Eモニター比輁E/a>
+    <a href="polling.html"     class="nav-link">🖱�E�Eポ�EリングレーチE/a>
+    <a href="fov.html"         class="nav-link">📐 FOV計箁E/a>
+    <a href="reaction.html"    class="nav-link">⚡ 反応速度チE��チE/a>
+    <a href="crosshair.html"   class="nav-link">✁Eクロスヘア</a>
+    <a href="winsens.html"     class="nav-link">🪁EWindows感度</a>
   </nav>
 </header>
 
 <main>
-  <!-- ヒーロー -->
+  <!-- ヒ�Eロー -->
   <section class="vrc-hero fade-in">
     <p class="vrc-eyebrow">VRChat Unity Tool</p>
     <h1 class="vrc-hero-title">VRC <span>Body Collider</span> Setup</h1>
     <p class="vrc-hero-sub">
-      アバターにPhysBone Colliderをワンクリックで自動配置。<br>
-      他のアバターと密着しても体が貫通しにくくなります。
+      アバターにPhysBone ColliderをワンクリチE��で自動�E置、Ebr>
+      他�Eアバターと寁E��しても体が貫通しにくくなります、E
     </p>
-    <a href="../VRC-BodyCollider/Editor/VRCBodyColliderSetup.cs" download="VRCBodyColliderSetup.cs" class="download-btn">
+    <a href="VRCBodyColliderSetup.cs" download="VRCBodyColliderSetup.cs" class="download-btn">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      VRCBodyColliderSetup.cs をダウンロード
+      VRCBodyColliderSetup.cs をダウンローチE
     </a>
     <br>
-    <span class="version-badge">v1.0.0 — VRChat SDK3 / PhysBone 対応</span>
+    <span class="version-badge">v1.0.0  EVRChat SDK3 / PhysBone 対忁E/span>
   </section>
 
   <div class="page-main">
 
-    <!-- 使い方ステップ -->
+    <!-- 使ぁE��スチE��チE-->
     <section style="margin-bottom: 48px;">
-      <h2 class="section-title">使い方（4ステップ）</h2>
+      <h2 class="section-title">使ぁE���E�EスチE��プ！E/h2>
       <div class="steps-grid">
         <div class="step-card fade-in fade-in-delay-1">
           <div class="step-num">1</div>
-          <div class="step-title">ダウンロード</div>
-          <div class="step-desc">上のボタンから <code style="background:var(--card2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">VRCBodyColliderSetup.cs</code> をダウンロードする</div>
+          <div class="step-title">ダウンローチE/div>
+          <div class="step-desc">上�Eボタンから <code style="background:var(--card2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">VRCBodyColliderSetup.cs</code> をダウンロードすめE/div>
         </div>
         <div class="step-card fade-in fade-in-delay-2">
           <div class="step-num">2</div>
-          <div class="step-title">Unityにインポート</div>
-          <div class="step-desc">アバターのUnityプロジェクトを開き、<code style="background:var(--card2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">Assets/Editor/</code> フォルダにドラッグ＆ドロップ</div>
+          <div class="step-title">Unityにインポ�EチE/div>
+          <div class="step-desc">アバターのUnityプロジェクトを開き、Ecode style="background:var(--card2);padding:2px 6px;border-radius:4px;font-size:0.8rem;">Assets/Editor/</code> フォルダにドラチE���E�E��ロチE�E</div>
         </div>
         <div class="step-card fade-in fade-in-delay-3">
           <div class="step-num">3</div>
-          <div class="step-title">ツールを開く</div>
-          <div class="step-desc">Unityメニューの <strong style="color:var(--accent3)">VRC Tools &gt; Body Collider Setup</strong> を開く。アバターを選んでボタンを押すだけ</div>
+          <div class="step-title">チE�Eルを開ぁE/div>
+          <div class="step-desc">Unityメニューの <strong style="color:var(--accent3)">VRC Tools &gt; Body Collider Setup</strong> を開く。アバターを選んでボタンを押すだぁE/div>
         </div>
         <div class="step-card fade-in fade-in-delay-4">
           <div class="step-num">4</div>
-          <div class="step-title">アップロード</div>
-          <div class="step-desc">そのままVRChatにアバターをアップロードするだけ。追加設定は不要</div>
+          <div class="step-title">アチE�EローチE/div>
+          <div class="step-desc">そ�EままVRChatにアバターをアチE�Eロードするだけ。追加設定�E不要E/div>
         </div>
       </div>
     </section>
 
-    <!-- 自動設定される部位 -->
+    <!-- 自動設定される部佁E-->
     <section style="margin-bottom: 48px;">
-      <h2 class="section-title">自動で設定される部位</h2>
-      <p class="section-desc">アバターのHumanoidボーンを自動検出して、各部位に最適なコライダーを配置します。</p>
+      <h2 class="section-title">自動で設定される部佁E/h2>
+      <p class="section-desc">アバターのHumanoidボ�Eンを�E動検�Eして、各部位に最適なコライダーを�E置します、E/p>
       <div class="parts-grid">
-        <div class="part-item"><span class="dot"></span>頭（Sphere）</div>
-        <div class="part-item"><span class="dot"></span>首（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>胸（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>上半身（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>背骨（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>腰（Sphere）</div>
-        <div class="part-item"><span class="dot"></span>左上腕（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>右上腕（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>左前腕（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>右前腕（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>左手（Sphere）</div>
-        <div class="part-item"><span class="dot"></span>右手（Sphere）</div>
-        <div class="part-item"><span class="dot"></span>左太もも（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>右太もも（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>左すね（Capsule）</div>
-        <div class="part-item"><span class="dot"></span>右すね（Capsule）</div>
+        <div class="part-item"><span class="dot"></span>頭�E�Ephere�E�E/div>
+        <div class="part-item"><span class="dot"></span>首！Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>胸�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>上半身�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>背骨�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>腰�E�Ephere�E�E/div>
+        <div class="part-item"><span class="dot"></span>左上�E�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>右上�E�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>左前�E�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>右前�E�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>左手！Ephere�E�E/div>
+        <div class="part-item"><span class="dot"></span>右手！Ephere�E�E/div>
+        <div class="part-item"><span class="dot"></span>左太もも�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>右太もも�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>左す�E�E�Eapsule�E�E/div>
+        <div class="part-item"><span class="dot"></span>右す�E�E�Eapsule�E�E/div>
       </div>
     </section>
 
-    <!-- 注意事項 -->
+    <!-- 注意事頁E-->
     <section style="margin-bottom: 48px;">
-      <h2 class="section-title">注意事項</h2>
+      <h2 class="section-title">注意事頁E/h2>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div class="notice-box">
-          <strong>⚠️ 相互設定が必要</strong><br>
-          PhysBone Colliderは「相手の髪・スカート・しっぽ等のPhysBoneが自分のコライダーを押しのける」仕組みです。
-          お互いのアバターが対応設定をしていると、より自然な貫通防止になります。
+          <strong>⚠�E�E相互設定が忁E��E/strong><br>
+          PhysBone Colliderは「相手�E髪・スカート�Eしっぽ等�EPhysBoneが�E刁E�Eコライダーを押し�Eける」仕絁E��です、E
+          お互いのアバターが対応設定をしてぁE��と、より�E然な貫通防止になります、E
         </div>
         <div class="info-box">
-          <strong>✅ 必要なもの</strong><br>
-          Unity 2019.4以降 + VRChat SDK3（VRCSDK3-AVATAR）。SDK未導入の場合、Unity標準コライダーで仮配置されますが、SDKインポート後に再セットアップしてください。
+          <strong>✁E忁E��なも�E</strong><br>
+          Unity 2019.4以陁E+ VRChat SDK3�E�ERCSDK3-AVATAR�E�。SDK未導�Eの場合、Unity標準コライダーで仮配置されますが、SDKインポ�Eト後に再セチE��アチE�Eしてください、E
         </div>
         <div class="info-box">
-          <strong>✅ Undo対応</strong><br>
-          セットアップはすべてUnityのUndo履歴に記録されます。Ctrl+Zで元に戻せます。ツール内の削除ボタンでまとめて削除することも可能です。
+          <strong>✁EUndo対忁E/strong><br>
+          セチE��アチE�EはすべてUnityのUndo履歴に記録されます、Etrl+Zで允E��戻せます。ツール冁E�E削除ボタンでまとめて削除することも可能です、E
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
     <section style="margin-bottom: 48px;">
-      <h2 class="section-title">よくある質問</h2>
+      <h2 class="section-title">よくある質啁E/h2>
       <div class="card">
         <div class="faq-item">
-          <div class="faq-q">体型が大きい/小さいアバターはどうすればいい？</div>
-          <div class="faq-a">ツール内の「詳細設定」からコライダーサイズの倍率を 0.5〜2.0 で調整できます。標準体型なら倍率1.0のままでOKです。</div>
+          <div class="faq-q">体型が大きい/小さぁE��バターはどぁE��れ�EぁE���E�E/div>
+          <div class="faq-a">チE�Eル冁E�E「詳細設定」からコライダーサイズの倍率めE0.5、E.0 で調整できます。標準体型なら倍率1.0のままでOKです、E/div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">VRChatの利用規約に違反しませんか？</div>
-          <div class="faq-a">違反しません。VRChat公式のPhysBone Collider機能を使うUnityエディター拡張です。クライアントの改変は一切行いません。</div>
+          <div class="faq-q">VRChatの利用規紁E��違反しませんか！E/div>
+          <div class="faq-a">違反しません。VRChat公式�EPhysBone Collider機�Eを使ぁEnityエチE��ター拡張です。クライアント�E改変�E一刁E��いません、E/div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">既存のPhysBone設定と干渉しますか？</div>
-          <div class="faq-a">既存のPhysBoneコンポーネントには触れず、コライダーオブジェクトを追加するだけです。既存設定を壊すことはありません。</div>
+          <div class="faq-q">既存�EPhysBone設定と干渉しますか�E�E/div>
+          <div class="faq-a">既存�EPhysBoneコンポ�Eネントには触れず、コライダーオブジェクトを追加するだけです。既存設定を壊すことはありません、E/div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">アップロード後にパフォーマンスに影響はある？</div>
-          <div class="faq-a">PhysBone Colliderはアバターのパフォーマンスランクに影響します。追加するコライダー数によってはランクが下がる場合があります。VRChat公式のパフォーマンスランク表も合わせて確認してください。</div>
+          <div class="faq-q">アチE�Eロード後にパフォーマンスに影響はある�E�E/div>
+          <div class="faq-a">PhysBone Colliderはアバターのパフォーマンスランクに影響します。追加するコライダー数によってはランクが下がる場合があります。VRChat公式�Eパフォーマンスランク表も合わせて確認してください、E/div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">コライダーを削除したい</div>
-          <div class="faq-a">ツールを再度開いて「セットアップしたコライダーを削除」ボタンを押すと、このツールで追加したコライダーをすべて一括削除できます。</div>
+          <div class="faq-q">コライダーを削除したぁE/div>
+          <div class="faq-a">チE�Eルを�E度開いて「セチE��アチE�Eしたコライダーを削除」�Eタンを押すと、このチE�Eルで追加したコライダーをすべて一括削除できます、E/div>
         </div>
       </div>
     </section>
 
-    <!-- 再ダウンロード -->
+    <!-- 再ダウンローチE-->
     <section style="text-align:center;padding:40px 0;">
-      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">どの端末からでもここからダウンロードできます</p>
-      <a href="../VRC-BodyCollider/Editor/VRCBodyColliderSetup.cs" download="VRCBodyColliderSetup.cs" class="download-btn">
+      <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">どの端末からでもここからダウンロードできまぁE/p>
+      <a href="VRCBodyColliderSetup.cs" download="VRCBodyColliderSetup.cs" class="download-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        VRCBodyColliderSetup.cs をダウンロード
+        VRCBodyColliderSetup.cs をダウンローチE
       </a>
     </section>
 
@@ -376,12 +376,12 @@
   <p>© 2026 SensConverter</p>
   <div class="footer-links">
     <a href="../privacy.html">プライバシーポリシー</a>
-    <a href="../contact.html">お問い合わせ</a>
+    <a href="../contact.html">お問ぁE��わせ</a>
   </div>
 </footer>
 
 <script>
-  // ハンバーガーメニュー
+  // ハンバ�Eガーメニュー
   const hamburgerBtn = document.getElementById('hamburgerBtn');
   const mobileMenu   = document.getElementById('mobileMenu');
   hamburgerBtn.addEventListener('click', () => {
